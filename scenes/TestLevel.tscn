@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=4 uid="uid://bkc4yf3t4glhk"]
+[gd_scene load_steps=16 format=4 uid="uid://bkc4yf3t4glhk"]
 
 [ext_resource type="Texture2D" uid="uid://dnbdmq8con0rq" path="res://assets/environment/IndustrialEnvironment2025/Structures.png" id="1_652jm"]
 [ext_resource type="PackedScene" uid="uid://by4lkt3d8d78a" path="res://scenes/player.tscn" id="1_xclqy"]
 [ext_resource type="Texture2D" uid="uid://08wv0tp6fbg8" path="res://assets/environment/IndustrialEnvironment2025/Props.png" id="2_bskv1"]
 [ext_resource type="Texture2D" uid="uid://cm3klmojodcjg" path="res://assets/environment/IndustrialEnvironment2025/All.png" id="3_bwop4"]
+[ext_resource type="PackedScene" uid="uid://c4nq2nryaf66k" path="res://scenes/ScavengeObject.tscn" id="5_8xg12"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x4dr4"]
 texture = ExtResource("1_652jm")
@@ -1705,3 +1706,11 @@ position = Vector2(143, 64)
 anchor_mode = 0
 zoom = Vector2(2, 2)
 position_smoothing_enabled = true
+
+[node name="=== Items ===" type="Node2D" parent="."]
+
+[node name="ScavengeObject" parent="=== Items ===" instance=ExtResource("5_8xg12")]
+position = Vector2(136, 173)
+
+[node name="ScavengeObject2" parent="=== Items ===" instance=ExtResource("5_8xg12")]
+position = Vector2(365, 93)
