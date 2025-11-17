@@ -50,7 +50,6 @@ func Count(id: String) -> int:
 func Get_All() -> Array:
 	return inventory_slots.duplicate(true)
 
-# Sort by rarity (lower number = rarer) then alphabetically
 func _sort_inventory():
 	inventory_slots.sort_custom(Callable(self, "_sort_compare"))
 

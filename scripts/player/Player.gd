@@ -5,7 +5,6 @@ extends CharacterBody2D
 @onready var stats = preload("res://scripts/player/PlayerStats.gd").new()
 @onready var storage = preload("res://scripts/player/PlayerStorage.gd").new()
 @onready var interact_hint: Label = $InteractHint
-@onready var inventory_ui = get_parent().get_node("CanvasLayer/InventoryUi")
 
 # --- Player Stats ---
 var gender: String = "male"
@@ -20,25 +19,42 @@ var nearby_interactables := []  # List of Area2D nodes in range
 var current_interactable: Node = null
 
 # --- Inventory ---
+var inventory_ui: Node = null
 var inventory := []
 
 # -------------------- PROCESS --------------------
-func _process(delta):
-	# Toggle inventory UI
-	if Input.is_action_just_pressed("toggle_inventory"):
-		inventory_ui.visible = not inventory_ui.visible
+func _process(_delta):
+	if Input.is_action_just_pressed("toggle_inventory") and inventory_ui:
+		inventory_ui.toggle()
 		if inventory_ui.visible:
 			print_inventory()  # Debug print
 
 # -------------------- READY --------------------
 func _ready():
+	# Make sure the current scene exists
+	var current_scene = get_tree().get_current_scene()
+	if current_scene:
+		# Try to get HUD first
+		var hud = current_scene.get_node_or_null("HUD")
+		if hud:
+			# Then get InventoryUI under HUD
+			inventory_ui = hud.get_node_or_null("InventoryUI")
+			if inventory_ui:
+				inventory_ui.visible = false
+			else:
+				push_error("InventoryUI not found under HUD! Make sure HUD/InventoryUI exists in the scene.")
+		else:
+			push_error("HUD node not found in current scene!")
+	else:
+		push_error("Current scene is null!")
+
+	# Load player data and setup
 	_load_player_prefs()
 	_setup_animations()
 	storage.load(self)
+	
 	if interact_hint:
 		interact_hint.visible = false
-	if inventory_ui:
-		inventory_ui.visible = false
 
 # -------------------- PHYSICS --------------------
 func _physics_process(delta):
@@ -153,8 +169,8 @@ func remove_items(items_to_remove: Array) -> void:
 		inventory.erase(item)
 
 func add_item(item_name: String):
-	inventory.append(item_name)
-	print("Added to inventory:", item_name)
+	Inventory.Add_Item(item_name, 1)
+	print("Picked up:", item_name)
 
 func print_inventory():
 	print("--- Inventory ---")

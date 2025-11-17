@@ -1,36 +1,42 @@
 extends Control
 
-@export var item_icon_size: Vector2 = Vector2(48, 48)  # icon size
-@onready var item_list: VBoxContainer = $Panel/VBoxContainer
-var is_visible := false
+@export var item_icon_size: Vector2 = Vector2(32, 32)
+@export var max_rows: int = 12  # max items per column
+
+@onready var item_grid: GridContainer = $Panel/GridContainer
 
 func _ready():
 	visible = false
+	Inventory.connect("inventory_updated", Callable(self, "_on_inventory_updated"))
 
 func toggle():
-	is_visible = !is_visible
-	visible = is_visible
-	if is_visible:
+	visible = not visible
+	if visible:
 		update_inventory()
 
-# Update the inventory display
+func _on_inventory_updated():
+	if visible:
+		update_inventory()
+
 func update_inventory():
-	item_list.clear()  # remove previous items
+	# Clear old items
+	for child in item_grid.get_children():
+		child.queue_free()
 
-	for item_data in Inventory.Get_All():  # use your Inventory system
-		var hbox = HBoxContainer.new()
+	# Add updated items
+	for item_data in Inventory.Get_All():
+		var vbox = VBoxContainer.new()
 
-		# Load icon
-		var tex = ItemDatabase.ITEMS[item_data.id].icon
+		# Icon
 		var icon = TextureRect.new()
-		icon.texture = tex
-		icon.rect_min_size = item_icon_size
+		icon.texture = ItemDatabase.ITEMS[item_data.id].icon
+		icon.custom_minimum_size = item_icon_size
 		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		hbox.add_child(icon)
+		vbox.add_child(icon)
 
-		# Item label
+		# Label
 		var label = Label.new()
 		label.text = "%s x%s" % [item_data.id, item_data.amount]
-		hbox.add_child(label)
+		vbox.add_child(label)
 
-		item_list.add_child(hbox)
+		item_grid.add_child(vbox)

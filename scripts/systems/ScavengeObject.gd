@@ -86,7 +86,10 @@ func _give_random_item():
 	prompt.visible = false
 
 	if chosen_item_id != "":
-		Inventory.Add_Item(chosen_item_id, 1)
+		Inventory.Add_Item(chosen_item_id, 1)  # adds to Inventory singleton
+		Inventory.emit_signal("inventory_updated") # <- ADD THIS
+		print("Updating UI...")
+		print("Current inventory:", Inventory.Get_All())
 		print("Picked up:", chosen_item_id)
 
 	sprite.visible = false

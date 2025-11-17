@@ -1726,16 +1726,16 @@ scavenge_scene = ExtResource("6_5n3yh")
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("1_xclqy")]
 z_index = 10
-position = Vector2(143, 64)
+position = Vector2(141, 84)
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
 zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="HUD" type="CanvasLayer" parent="."]
 
-[node name="InventoryUi" parent="CanvasLayer" instance=ExtResource("7_0n17k")]
+[node name="InventoryUI" parent="HUD" instance=ExtResource("7_0n17k")]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
