@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://hui0g5p22l71"]
+
+[ext_resource type="Script" uid="uid://dx8kffs4ljlji" path="res://scripts/systems/InventoryUI.gd" id="1_wqexf"]
+
+[node name="InventoryUi" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_wqexf")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2

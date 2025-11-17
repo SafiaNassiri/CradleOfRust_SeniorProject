@@ -4,7 +4,8 @@ extends CharacterBody2D
 @onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var stats = preload("res://scripts/player/PlayerStats.gd").new()
 @onready var storage = preload("res://scripts/player/PlayerStorage.gd").new()
-@onready var interact_hint: Label = $InteractHint # Optional "Press E" label
+@onready var interact_hint: Label = $InteractHint
+@onready var inventory_ui = get_parent().get_node("CanvasLayer/InventoryUi")
 
 # --- Player Stats ---
 var gender: String = "male"
@@ -21,6 +22,14 @@ var current_interactable: Node = null
 # --- Inventory ---
 var inventory := []
 
+# -------------------- PROCESS --------------------
+func _process(delta):
+	# Toggle inventory UI
+	if Input.is_action_just_pressed("toggle_inventory"):
+		inventory_ui.visible = not inventory_ui.visible
+		if inventory_ui.visible:
+			print_inventory()  # Debug print
+
 # -------------------- READY --------------------
 func _ready():
 	_load_player_prefs()
@@ -28,6 +37,8 @@ func _ready():
 	storage.load(self)
 	if interact_hint:
 		interact_hint.visible = false
+	if inventory_ui:
+		inventory_ui.visible = false
 
 # -------------------- PHYSICS --------------------
 func _physics_process(delta):
@@ -40,7 +51,7 @@ func _handle_movement(delta):
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	input_vector = input_vector.normalized()
 
-	is_sprinting = Input.is_action_pressed("dash") and stats.stamina > 0
+	is_sprinting = Input.is_action_pressed("Dash") and stats.stamina > 0
 	var current_speed = speed * (sprint_multiplier if is_sprinting else 1.0)
 	velocity = input_vector * current_speed
 	move_and_slide()
@@ -100,7 +111,6 @@ func _setup_animations():
 # -------------------- INTERACTION --------------------
 func _check_interaction_input():
 	if current_interactable and Input.is_action_just_pressed("interact"):
-		# Call the appropriate function on the interactable
 		if current_interactable.has_method("_give_random_item"):
 			current_interactable._give_random_item()
 		elif current_interactable.has_method("_deposit_and_spawn"):
@@ -109,6 +119,7 @@ func _check_interaction_input():
 func register_interactable(interactable_node: Node):
 	if interactable_node not in nearby_interactables:
 		nearby_interactables.append(interactable_node)
+	print("Registered interactable:", interactable_node.name)
 	_update_current_interactable()
 
 func unregister_interactable(interactable_node: Node):
@@ -118,7 +129,7 @@ func unregister_interactable(interactable_node: Node):
 
 func _update_current_interactable():
 	if nearby_interactables.size() > 0:
-		current_interactable = nearby_interactables[0] # pick first for now
+		current_interactable = nearby_interactables[0]
 		if interact_hint:
 			interact_hint.visible = true
 	else:
@@ -128,7 +139,7 @@ func _update_current_interactable():
 
 # -------------------- STORAGE --------------------
 func _exit_tree():
-	storage.save(self) # Save data when scene closes
+	storage.save(self)
 
 # -------------------- INVENTORY --------------------
 func has_items(required_items: Array) -> bool:
@@ -143,4 +154,10 @@ func remove_items(items_to_remove: Array) -> void:
 
 func add_item(item_name: String):
 	inventory.append(item_name)
-	print("✅ Added to inventory:", item_name)
+	print("Added to inventory:", item_name)
+
+func print_inventory():
+	print("--- Inventory ---")
+	for i in inventory:
+		print(i)
+	print("---------------")

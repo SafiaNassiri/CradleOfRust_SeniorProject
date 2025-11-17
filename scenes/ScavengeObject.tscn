@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c4nq2nryaf66k"]
 
-[ext_resource type="Script" uid="uid://ba2jr5y1vdbes" path="res://scripts/ScavengeObject.gd" id="1_3xowe"]
-[ext_resource type="Texture2D" uid="uid://dbg23jb8crjn0" path="res://assets/items/items_sheet.png" id="2_wjgmx"]
+[ext_resource type="Script" uid="uid://ba2jr5y1vdbes" path="res://scripts/systems/ScavengeObject.gd" id="1_3xowe"]
+[ext_resource type="Texture2D" uid="uid://b8xnjoedbsqbj" path="res://assets/items/common/tile309.png" id="2_wjgmx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cbnat"]
 
@@ -15,5 +15,17 @@ shape = SubResource("RectangleShape2D_cbnat")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_wjgmx")
-region_enabled = true
 region_rect = Rect2(192, 272, 16, 16)
+
+[node name="Prompt" type="Label" parent="."]
+visible = false
+offset_left = -71.0
+offset_top = -38.0
+offset_right = 80.0
+offset_bottom = -15.0
+text = "Press E to scavenge"
+
+[node name="RespawnTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
