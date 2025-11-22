@@ -1,14 +1,13 @@
 extends Node
 
-# All items loaded from folders: {id: {rarity:int, icon:Texture2D}}
-var ITEMS := {}
+# All items: { "id": {"rarity": int, "icon": Texture2D} }
+var ITEMS: Dictionary = {}
 
 func _ready():
 	_load_items_from_folder("res://assets/items/common/", 3)
 	_load_items_from_folder("res://assets/items/uncommon/", 2)
 	_load_items_from_folder("res://assets/items/rare/", 1)
 	_load_items_from_folder("res://assets/items/legendary/", 0)
-
 	print("ItemDatabase loaded:", ITEMS.keys())
 
 func _load_items_from_folder(path: String, rarity: int):
@@ -18,13 +17,16 @@ func _load_items_from_folder(path: String, rarity: int):
 		return
 
 	dir.list_dir_begin()
-	var filename = dir.get_next()
+	var file = dir.get_next()
 
-	while filename != "":
-		if not dir.current_is_dir() and filename.ends_with(".png"):
-			var id := filename.get_basename()
-			var tex := load(path + filename)
-			ITEMS[id] = {"rarity": rarity, "icon": tex}
-		filename = dir.get_next()
+	while file != "":
+		if not dir.current_is_dir() and file.ends_with(".png"):
+			var id := file.get_basename()
+			var tex := load(path + file)
+			ITEMS[id] = {
+				"rarity": rarity,
+				"icon": tex
+			}
+		file = dir.get_next()
+
 	dir.list_dir_end()
-	

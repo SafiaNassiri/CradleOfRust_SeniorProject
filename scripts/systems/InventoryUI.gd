@@ -1,13 +1,16 @@
 extends Control
 
 @export var item_icon_size: Vector2 = Vector2(32, 32)
-@export var max_rows: int = 12  # max items per column
+@export var max_rows: int = 8 # max rows visible at once
 
-@onready var item_grid: GridContainer = $Panel/GridContainer
+@onready var panel: PanelContainer = $PanelContainer
+@onready var grid: GridContainer = $PanelContainer/VBoxContainer/GridContainer
+@onready var header_label: Label = $PanelContainer/VBoxContainer/Label
 
 func _ready():
-	visible = false
-	Inventory.connect("inventory_updated", Callable(self, "_on_inventory_updated"))
+	var player = get_tree().get_first_node_in_group("player")
+	if player:
+		player.inventory.connect("inventory_updated", Callable(self, "_on_inventory_updated"))
 
 func toggle():
 	visible = not visible
@@ -19,24 +22,39 @@ func _on_inventory_updated():
 		update_inventory()
 
 func update_inventory():
-	# Clear old items
-	for child in item_grid.get_children():
+	if not grid:
+		push_error("GridContainer not found!")
+		return
+
+	# Clear previous items
+	for child in grid.get_children():
 		child.queue_free()
 
-	# Add updated items
-	for item_data in Inventory.Get_All():
-		var vbox = VBoxContainer.new()
+	var items = Inventory.Get_All()
+	if items.size() == 0:
+		return
 
+	# Determine columns
+	var rows = min(max_rows, items.size())
+	var columns = ceil(items.size() / rows)
+	grid.columns = columns
+
+	# Add items
+	for item_data in items:
+		var vbox = VBoxContainer.new()
+		
 		# Icon
 		var icon = TextureRect.new()
 		icon.texture = ItemDatabase.ITEMS[item_data.id].icon
 		icon.custom_minimum_size = item_icon_size
 		icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 		vbox.add_child(icon)
-
+		
 		# Label
 		var label = Label.new()
 		label.text = "%s x%s" % [item_data.id, item_data.amount]
+		label.size_flags_horizontal = Control.SIZE_FILL
 		vbox.add_child(label)
-
-		item_grid.add_child(vbox)
+		
+		# Add to grid
+		grid.add_child(vbox)

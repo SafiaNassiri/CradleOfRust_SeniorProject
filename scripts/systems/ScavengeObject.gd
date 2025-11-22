@@ -4,6 +4,7 @@ signal respawn_needed(rarity)
 
 @onready var area = $Area2D
 @onready var prompt = $Prompt
+@onready var promptBG = $Panel
 @onready var respawn_timer = $RespawnTimer
 @onready var sprite = $Sprite2D
 
@@ -18,6 +19,7 @@ func _ready():
 	area.body_entered.connect(_on_body_entered)
 	area.body_exited.connect(_on_body_exited)
 	prompt.visible = false
+	promptBG.visible = false
 	load_item_sprites()
 	set_random_sprite()
 
@@ -64,6 +66,7 @@ func _on_body_entered(body):
 	if body.is_in_group("Player") and not collected:
 		player_in_range = true
 		prompt.visible = true
+		promptBG.visible = true
 		if body.has_method("register_interactable"):
 			body.register_interactable(self)
 
@@ -71,6 +74,7 @@ func _on_body_exited(body):
 	if body.is_in_group("Player"):
 		player_in_range = false
 		prompt.visible = false
+		promptBG.visible = false
 		if body.has_method("unregister_interactable"):
 			body.unregister_interactable(self)  # <-- unregister
 
@@ -84,6 +88,7 @@ func _give_random_item():
 
 	collected = true
 	prompt.visible = false
+	promptBG.visible = false
 
 	if chosen_item_id != "":
 		Inventory.Add_Item(chosen_item_id, 1)  # adds to Inventory singleton
@@ -117,3 +122,4 @@ func respawn():
 	area.monitorable = true
 	if player_in_range:
 		prompt.visible = true
+		promptBG.visible = true
