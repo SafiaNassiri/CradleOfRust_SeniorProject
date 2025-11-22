@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c4nq2nryaf66k"]
 
-[ext_resource type="Script" uid="uid://ba2jr5y1vdbes" path="res://scripts/systems/ScavengeObject.gd" id="1_3xowe"]
+[ext_resource type="Script" uid="uid://ba2jr5y1vdbes" path="res://scripts/world/ScavengeObject.gd" id="1_3xowe"]
 [ext_resource type="Texture2D" uid="uid://sa18r2g5ludi" path="res://assets/items/common/Bronze Clockwork.png" id="2_wjgmx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cbnat"]

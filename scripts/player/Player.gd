@@ -22,14 +22,12 @@ var current_interactable: Node = null
 var inventory_ui: Node = null
 var inventory := []
 
-
 # -------------------- PROCESS --------------------
 func _process(_delta):
 	if Input.is_action_just_pressed("toggle_inventory") and inventory_ui:
 		inventory_ui.toggle()
 		if inventory_ui.visible:
 			print_inventory()
-
 
 # -------------------- READY --------------------
 func _ready():
@@ -43,7 +41,6 @@ func _ready():
 
 	if interact_hint:
 		interact_hint.visible = false
-
 
 # Delayed UI connection to avoid get_node() errors
 func _connect_ui():
@@ -63,12 +60,10 @@ func _connect_ui():
 	else:
 		inventory_ui.visible = false
 
-
 # -------------------- PHYSICS --------------------
 func _physics_process(delta):
 	_handle_movement(delta)
 	_check_interaction_input()
-
 
 func _handle_movement(delta):
 	var input_vector = Vector2.ZERO
@@ -88,7 +83,6 @@ func _handle_movement(delta):
 		stats.Recover_Stamina(delta * 5)
 
 	_update_animation(input_vector)
-
 
 # -------------------- ANIMATION --------------------
 func _update_animation(input_vector: Vector2):
@@ -121,7 +115,6 @@ func _update_animation(input_vector: Vector2):
 		if anim_sprite.animation != anim_name:
 			anim_sprite.play(anim_name)
 
-
 # -------------------- PLAYER PREFS --------------------
 func _load_player_prefs():
 	if FileAccess.file_exists("user://prefs.json"):
@@ -132,7 +125,6 @@ func _load_player_prefs():
 		if parsed.error == OK and parsed.result.has("gender"):
 			gender = parsed.result["gender"]
 
-
 func _setup_animations():
 	var frames_path = "res://assets/player/%s/%s.tres" % [gender, gender]
 
@@ -142,7 +134,6 @@ func _setup_animations():
 		push_warning("⚠ Missing sprite frames for '%s', defaulting to male." % gender)
 		anim_sprite.sprite_frames = load("res://assets/player/male/male.tres")
 
-
 # -------------------- INTERACTION --------------------
 func _check_interaction_input():
 	if current_interactable and Input.is_action_just_pressed("interact"):
@@ -151,18 +142,15 @@ func _check_interaction_input():
 		elif current_interactable.has_method("_deposit_and_spawn"):
 			current_interactable._deposit_and_spawn()
 
-
 func register_interactable(interactable_node: Node):
 	if interactable_node not in nearby_interactables:
 		nearby_interactables.append(interactable_node)
 	_update_current_interactable()
 
-
 func unregister_interactable(interactable_node: Node):
 	if interactable_node in nearby_interactables:
 		nearby_interactables.erase(interactable_node)
 	_update_current_interactable()
-
 
 func _update_current_interactable():
 	if nearby_interactables.size() > 0:
@@ -174,11 +162,9 @@ func _update_current_interactable():
 		if interact_hint:
 			interact_hint.visible = false
 
-
 # -------------------- STORAGE --------------------
 func _exit_tree():
 	storage.save(self)
-
 
 # -------------------- INVENTORY --------------------
 func has_items(required_items: Array) -> bool:
@@ -187,16 +173,13 @@ func has_items(required_items: Array) -> bool:
 			return false
 	return true
 
-
 func remove_items(items_to_remove: Array) -> void:
 	for item in items_to_remove:
 		inventory.erase(item)
 
-
 func add_item(item_name: String):
 	inventory.append(item_name)
 	print("Picked up:", item_name)
-
 
 func print_inventory():
 	print("--- Inventory ---")

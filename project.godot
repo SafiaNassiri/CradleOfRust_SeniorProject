@@ -18,8 +18,8 @@ config/icon="res://GameLogo.png"
 [autoload]
 
 Backend="*res://scripts/systems/Backend.gd"
-ItemDatabase="*res://scripts/systems/ItemDatabase.gd"
-Inventory="*res://scripts/systems/Inventory.gd"
+ItemDatabase="*res://scripts/inventory/ItemDatabase.gd"
+Inventory="*res://scripts/inventory/Inventory.gd"
 
 [input]
 
