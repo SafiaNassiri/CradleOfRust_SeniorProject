@@ -73,9 +73,9 @@ func _handle_movement(delta):
 	move_and_slide()
 
 	if is_sprinting:
-		stats.use_stamina(delta * 10)
+		stats.Use_Stamina(delta * 10)
 	else:
-		stats.recover_stamina(delta * 5)
+		stats.Recover_Stamina(delta * 5)
 
 	_update_animation(input_vector)
 
