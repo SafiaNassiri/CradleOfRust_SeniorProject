@@ -1,19 +1,19 @@
 [gd_scene load_steps=22 format=4 uid="uid://bkc4yf3t4glhk"]
 
-[ext_resource type="Texture2D" uid="uid://dnbdmq8con0rq" path="res://assets/environment/IndustrialEnvironment2025/Structures.png" id="1_652jm"]
-[ext_resource type="PackedScene" uid="uid://by4lkt3d8d78a" path="res://scenes/player.tscn" id="1_xclqy"]
-[ext_resource type="Texture2D" uid="uid://08wv0tp6fbg8" path="res://assets/environment/IndustrialEnvironment2025/Props.png" id="2_bskv1"]
-[ext_resource type="Texture2D" uid="uid://cm3klmojodcjg" path="res://assets/environment/IndustrialEnvironment2025/All.png" id="3_bwop4"]
-[ext_resource type="Script" uid="uid://bs1wy3nx6mngh" path="res://scripts/world/SpawnPoint.gd" id="5_8xg12"]
-[ext_resource type="PackedScene" uid="uid://c4nq2nryaf66k" path="res://scenes/ScavengeObject.tscn" id="6_5n3yh"]
-[ext_resource type="PackedScene" uid="uid://hui0g5p22l71" path="res://scenes/InventoryUI.tscn" id="7_0n17k"]
-[ext_resource type="Script" uid="uid://4s67t2s11dfq" path="res://scripts/player/PlayerStats.gd" id="8_g3y3g"]
-[ext_resource type="Script" uid="uid://cv0y1b78plx8y" path="res://scripts/world/WorldState.gd" id="9_6e24c"]
-[ext_resource type="Script" uid="uid://bn8nkbnru77fa" path="res://scripts/ui/FadeOverlay.gd" id="10_5ycvo"]
-[ext_resource type="Script" uid="uid://b3u4hsx0xiq4" path="res://scripts/ui/WarningFlash.gd" id="10_7i0bt"]
+[ext_resource type="Texture2D" uid="uid://dnbdmq8con0rq" path="res://assets/environment/IndustrialEnvironment2025/Structures.png" id="1_krhtd"]
+[ext_resource type="Texture2D" uid="uid://08wv0tp6fbg8" path="res://assets/environment/IndustrialEnvironment2025/Props.png" id="2_r6sgv"]
+[ext_resource type="Texture2D" uid="uid://cm3klmojodcjg" path="res://assets/environment/IndustrialEnvironment2025/All.png" id="3_tiafi"]
+[ext_resource type="Script" uid="uid://bs1wy3nx6mngh" path="res://scripts/world/SpawnPoint.gd" id="4_pogp1"]
+[ext_resource type="PackedScene" uid="uid://c4nq2nryaf66k" path="res://scenes/Interactibles/ScavengeObject.tscn" id="5_3oots"]
+[ext_resource type="PackedScene" uid="uid://by4lkt3d8d78a" path="res://scenes/Player/player.tscn" id="6_l3cph"]
+[ext_resource type="PackedScene" uid="uid://hui0g5p22l71" path="res://scenes/UI/InventoryUI.tscn" id="7_jrxwy"]
+[ext_resource type="Script" uid="uid://4s67t2s11dfq" path="res://scripts/player/PlayerStats.gd" id="8_c41x5"]
+[ext_resource type="Script" uid="uid://cv0y1b78plx8y" path="res://scripts/world/WorldState.gd" id="9_13qed"]
+[ext_resource type="Script" uid="uid://b3u4hsx0xiq4" path="res://scripts/ui/WarningFlash.gd" id="10_fsgl2"]
+[ext_resource type="Script" uid="uid://bn8nkbnru77fa" path="res://scripts/ui/FadeOverlay.gd" id="11_5212c"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x4dr4"]
-texture = ExtResource("1_652jm")
+texture = ExtResource("1_krhtd")
 12:0/0 = 0
 14:0/0 = 0
 0:1/0 = 0
@@ -131,7 +131,7 @@ texture = ExtResource("1_652jm")
 18:14/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qfe8n"]
-texture = ExtResource("2_bskv1")
+texture = ExtResource("2_r6sgv")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -356,7 +356,7 @@ sources/0 = SubResource("TileSetAtlasSource_x4dr4")
 sources/3 = SubResource("TileSetAtlasSource_qfe8n")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jx7yj"]
-texture = ExtResource("1_652jm")
+texture = ExtResource("1_krhtd")
 12:0/0 = 0
 12:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 0.375, -2.125, 2.625, -0.25, 8, -8, 8)
 14:0/0 = 0
@@ -587,7 +587,7 @@ texture = ExtResource("1_652jm")
 16:14/0/physics_layer_0/polygon_0/points = PackedVector2Array(-3, -8, 8, -8, 8, 8, -2.75, 8)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_haf0r"]
-texture = ExtResource("3_bwop4")
+texture = ExtResource("3_tiafi")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -964,7 +964,7 @@ sources/0 = SubResource("TileSetAtlasSource_jx7yj")
 sources/1 = SubResource("TileSetAtlasSource_haf0r")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_hgg44"]
-texture = ExtResource("2_bskv1")
+texture = ExtResource("2_r6sgv")
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 1:0/0 = 0
@@ -1255,7 +1255,7 @@ texture = ExtResource("2_bskv1")
 19:13/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_eu4y6"]
-texture = ExtResource("3_bwop4")
+texture = ExtResource("3_tiafi")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -1696,7 +1696,7 @@ tile_set = SubResource("TileSet_m52lj")
 z_as_relative = false
 position = Vector2(241, 49)
 scale = Vector2(1.39453, 1.28125)
-texture = ExtResource("2_bskv1")
+texture = ExtResource("2_r6sgv")
 region_enabled = true
 region_rect = Rect2(0, 96, 32, 16)
 
@@ -1712,31 +1712,31 @@ shape = SubResource("RectangleShape2D_m6va3")
 
 [node name="SP1" type="Node2D" parent="=== SpawnPoints ==="]
 position = Vector2(367, 97)
-script = ExtResource("5_8xg12")
-scavenge_scene = ExtResource("6_5n3yh")
+script = ExtResource("4_pogp1")
+scavenge_scene = ExtResource("5_3oots")
 
 [node name="SP2" type="Node2D" parent="=== SpawnPoints ==="]
 position = Vector2(451, 157)
-script = ExtResource("5_8xg12")
-scavenge_scene = ExtResource("6_5n3yh")
+script = ExtResource("4_pogp1")
+scavenge_scene = ExtResource("5_3oots")
 
 [node name="SP3" type="Node2D" parent="=== SpawnPoints ==="]
 position = Vector2(520, 79)
-script = ExtResource("5_8xg12")
-scavenge_scene = ExtResource("6_5n3yh")
+script = ExtResource("4_pogp1")
+scavenge_scene = ExtResource("5_3oots")
 
 [node name="SP4" type="Node2D" parent="=== SpawnPoints ==="]
 position = Vector2(137, 174)
-script = ExtResource("5_8xg12")
-scavenge_scene = ExtResource("6_5n3yh")
+script = ExtResource("4_pogp1")
+scavenge_scene = ExtResource("5_3oots")
 
-[node name="Player" parent="." instance=ExtResource("1_xclqy")]
+[node name="Player" parent="." instance=ExtResource("6_l3cph")]
 z_index = 10
 position = Vector2(141, 84)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
-[node name="InventoryUI" parent="HUD" instance=ExtResource("7_0n17k")]
+[node name="InventoryUI" parent="HUD" instance=ExtResource("7_jrxwy")]
 offset_left = -1127.0
 offset_top = 17.0
 offset_right = -1127.0
@@ -1744,10 +1744,13 @@ offset_bottom = 17.0
 item_icon_size = Vector2(16, 16)
 
 [node name="===PlayerStats===" type="Node2D" parent="."]
-script = ExtResource("8_g3y3g")
+script = ExtResource("8_c41x5")
+facility_stability = null
+ai_trust = null
+morality = null
 
 [node name="===WorldState===" type="Node2D" parent="."]
-script = ExtResource("9_6e24c")
+script = ExtResource("9_13qed")
 warning_flash_path = NodePath("../WarningFlash")
 fade_overlay_path = NodePath("../FadeOverlay")
 
@@ -1763,11 +1766,11 @@ offset_right = -62.0
 offset_bottom = -21.0
 scale = Vector2(20.600224, 11.582342)
 color = Color(0.8392157, 0.043137256, 0, 0)
-script = ExtResource("10_7i0bt")
+script = ExtResource("10_fsgl2")
 
 [node name="FadeOverlay" type="CanvasLayer" parent="."]
 visible = false
-script = ExtResource("10_5ycvo")
+script = ExtResource("11_5212c")
 
 [node name="ColorRect" type="ColorRect" parent="FadeOverlay"]
 offset_left = -132.0

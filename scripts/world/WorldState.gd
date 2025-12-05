@@ -30,6 +30,10 @@ var fade_overlay: Node = null
 # Ready
 # -------------------------
 func _ready():
+	#DEBUG
+	print("SystemData:", SystemData)
+	print("PlayerStorage:", PlayerStorage)
+	
 	if warning_flash_path != null and has_node(warning_flash_path):
 		warning_flash_node = get_node(warning_flash_path)
 	if fade_overlay_path != null and has_node(fade_overlay_path):
@@ -133,3 +137,27 @@ func _input(event: InputEvent) -> void:
 				Update_Trust(100)
 				Update_Morality(100)
 				print("DEBUG: World state reset!")
+
+func Apply_Facility_Upgrade(id: String) -> bool:
+	var data = SystemData.facility_upgrades.get(id)
+	if data == null:
+		push_error("Facility upgrade not found: " + id)
+		return false
+	# Check cost
+	var cost = data.get("cost", {})
+	if not PlayerStorage.has_resources(cost):
+		print("Not enough resources for facility upgrade!")
+		return false
+	# Pay cost
+	PlayerStorage.spend_resources(cost)
+	# Apply effects
+	if data.has("stability_bonus"):
+		facility_stability = clamp(facility_stability + data.stability_bonus, 0, 100)
+	if data.has("trust_bonus"):
+		ai_trust = clamp(ai_trust + data.trust_bonus, 0, 100)
+	if data.has("morality_bonus"):
+		morality = clamp(morality + data.morality_bonus, 0, 100)
+	# Trigger UI updates + warning check
+	Check_Warning()
+	Check_GameOver()
+	return true

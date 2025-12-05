@@ -46,17 +46,17 @@ func _ready():
 func _connect_ui():
 	var current_scene = get_tree().current_scene
 	if not current_scene:
-		push_error("❌ Current scene is null! Player loaded too early.")
+		push_error("Current scene is null! Player loaded too early.")
 		return
 
 	var hud = current_scene.get_node_or_null("HUD")
 	if not hud:
-		push_error("❌ HUD not found! Make sure your scene has a HUD node.")
+		push_error("HUD not found! Make sure your scene has a HUD node.")
 		return
 
 	inventory_ui = hud.get_node_or_null("InventoryUI")
 	if not inventory_ui:
-		push_error("❌ InventoryUI missing under HUD!")
+		push_error("InventoryUI missing under HUD!")
 	else:
 		inventory_ui.visible = false
 

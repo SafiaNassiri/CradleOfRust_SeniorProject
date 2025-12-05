@@ -1,5 +1,4 @@
 extends Node
-class_name PlayerStorage
 
 const SAVE_PATH := "user://player_save.json"
 
@@ -45,4 +44,4 @@ func load(player):
 		player.stats.scrap = data.stats.scrap
 		player.stats.stamina = data.stats.stamina
 
-	print("✅ Loaded (inventory cleared).")
+	print("Loaded (inventory cleared).")

@@ -11,8 +11,11 @@ config_version=5
 [application]
 
 config/name="CradleOfRust"
-run/main_scene="res://scenes/TestLevel.tscn"
+run/main_scene="uid://ic4saqy1crwd"
 config/features=PackedStringArray("4.5", "GL Compatibility")
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/show_image=false
+boot_splash/image="uid://bnnutxe22vu40"
 config/icon="res://GameLogo.png"
 
 [autoload]
@@ -20,6 +23,8 @@ config/icon="res://GameLogo.png"
 Backend="*res://scripts/systems/Backend.gd"
 ItemDatabase="*res://scripts/inventory/ItemDatabase.gd"
 Inventory="*res://scripts/inventory/Inventory.gd"
+SystemData="*res://scripts/systems/SystemData.gd"
+PlayerStorage="*res://scripts/player/PlayerStorage.gd"
 
 [input]
 
