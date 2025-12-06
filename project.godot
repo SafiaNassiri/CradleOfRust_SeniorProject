@@ -25,6 +25,7 @@ ItemDatabase="*res://scripts/inventory/ItemDatabase.gd"
 Inventory="*res://scripts/inventory/Inventory.gd"
 SystemData="*res://scripts/systems/SystemData.gd"
 PlayerStorage="*res://scripts/player/PlayerStorage.gd"
+DialogueManager="*res://scripts/systems/DialogueManager.gd"
 
 [input]
 

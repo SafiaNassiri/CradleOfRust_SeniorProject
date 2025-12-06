@@ -47,18 +47,21 @@ func Update_Stability(change: float) -> void:
 	print("DEBUG: Facility updated to", facility_stability)
 	Check_Warning()
 	Check_GameOver()
+	Check_Dialogue_Triggers()
 
 func Update_Trust(change: float) -> void:
 	ai_trust = clamp(ai_trust + change, 0, 100)
 	print("DEBUG: AI Trust updated to", ai_trust)
 	Check_Warning()
 	Check_GameOver()
+	Check_Dialogue_Triggers()
 
 func Update_Morality(change: float) -> void:
 	morality = clamp(morality + change, 0, 100)
 	print("DEBUG: Morality updated to", morality)
 	Check_Warning()
 	Check_GameOver()
+	Check_Dialogue_Triggers()
 
 # -------------------------
 # Warning Logic
@@ -161,3 +164,52 @@ func Apply_Facility_Upgrade(id: String) -> bool:
 	Check_Warning()
 	Check_GameOver()
 	return true
+
+func Check_Dialogue_Triggers():
+	for id in DialogueManager.events.keys():
+		var ev = DialogueManager.get_event(id)
+		var trig = ev.get("trigger")
+
+		if trig.get("type") == "threshold":
+			var stat = trig.get("stat")
+			var cond = trig.get("condition")
+			var value = trig.get("value")
+
+			var current_val : float
+			
+			match stat:
+				"facility_stability":
+					current_val = facility_stability
+				"ai_trust":
+					current_val = ai_trust
+				"morality":
+					current_val = morality
+				_:
+					continue   # skip this event safely
+			
+			var passed := false
+			
+			match cond:
+				"<=":
+					passed = current_val <= value
+				"<":
+					passed = current_val < value
+				">=":
+					passed = current_val >= value
+				">":
+					passed = current_val > value
+				"==":
+					passed = current_val == value
+				_:
+					passed = false
+
+			if passed:
+				show_dialogue(id)
+
+func show_dialogue(id: String):
+	var lines = DialogueManager.get_lines(id)
+	if lines.size() > 0:
+		print("\n--- DIALOGUE EVENT:", id, "---")
+		for line in lines:
+			print(line)
+		print("----------------------------\n")

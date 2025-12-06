@@ -1,0 +1,64 @@
+{
+  "events": {
+	"stability_low_warning": {
+	  "id": "stability_low_warning",
+	  "trigger": {
+		"type": "threshold",
+		"stat": "facility_stability",
+		"condition": "<=",
+		"value": 25
+	  },
+	  "lines": [
+		"SYSTEM WARNING: Structural integrity is degrading.",
+        "RECOMMENDATION: Stabilize critical nodes immediately."
+	  ]
+	},
+	"trust_crisis": {
+	  "id": "trust_crisis",
+	  "trigger": {
+		"type": "threshold",
+		"stat": "ai_trust",
+		"condition": "<=",
+		"value": 25
+	  },
+	  "lines": [
+		"The AI hesitates...",
+		"\"Human directives are... questionable.\"",
+        "\"I must reconsider my compliance levels.\""
+	  ]
+	}
+  },
+
+  "decision_points": {
+	"core_upgrade_choose_path": {
+	  "id": "core_upgrade_choose_path",
+	  "description": "Choose how to upgrade the Central Core.",
+	  "options": [
+		{
+		  "text": "Reinforce Stability",
+		  "effects": {
+			"facility_stability": 20,
+			"ai_trust": -10,
+			"morality": 0
+		  }
+		},
+		{
+		  "text": "Strengthen AI",
+		  "effects": {
+			"facility_stability": -10,
+			"ai_trust": 25,
+			"morality": -5
+		  }
+		},
+		{
+		  "text": "Humanitarian Override",
+		  "effects": {
+			"facility_stability": -15,
+			"ai_trust": -15,
+			"morality": 40
+		  }
+		}
+	  ]
+	}
+  }
+}
