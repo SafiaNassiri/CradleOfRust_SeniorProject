@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://doytmdtx42om7"]
+[gd_scene load_steps=29 format=4 uid="uid://doytmdtx42om7"]
 
 [ext_resource type="Texture2D" uid="uid://dnbdmq8con0rq" path="res://assets/environment/IndustrialEnvironment2025/Structures.png" id="1_c6jjx"]
 [ext_resource type="Script" uid="uid://bq7ym77v7edv6" path="res://scripts/world/main_level.gd" id="1_mloxi"]
@@ -13,7 +13,11 @@
 [ext_resource type="Script" uid="uid://4s67t2s11dfq" path="res://scripts/player/PlayerStats.gd" id="10_7ik1l"]
 [ext_resource type="Script" uid="uid://cv0y1b78plx8y" path="res://scripts/world/WorldState.gd" id="11_nwet0"]
 [ext_resource type="Script" uid="uid://b3u4hsx0xiq4" path="res://scripts/ui/WarningFlash.gd" id="12_awij6"]
-[ext_resource type="Script" uid="uid://bn8nkbnru77fa" path="res://scripts/ui/FadeOverlay.gd" id="13_4cowq"]
+[ext_resource type="Script" uid="uid://i1ahblxir6sg" path="res://scripts/ui/WipeConfirmPopup.gd" id="13_7ik1l"]
+[ext_resource type="Script" uid="uid://cvf12ryakc5lx" path="res://scripts/NPCs/AINarrator.gd" id="15_n7cjv"]
+[ext_resource type="PackedScene" uid="uid://cngm6cbtw17gt" path="res://scenes/UI/AINarratorHUD.tscn" id="17_nwet0"]
+[ext_resource type="Script" uid="uid://cp31mvlpcbixl" path="res://scripts/ui/DialogueBox.gd" id="18_awij6"]
+[ext_resource type="Script" uid="uid://w8spa2yr5s6w" path="res://scripts/ui/Cutscene.gd" id="19_4cowq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_huru0"]
 texture = ExtResource("1_c6jjx")
@@ -1727,6 +1731,17 @@ size = Vector2(354, 334.75)
 [node name="MainLevel" type="Node2D"]
 script = ExtResource("1_mloxi")
 
+[node name="===PlayerStats===" type="Node2D" parent="."]
+script = ExtResource("10_7ik1l")
+facility_stability = null
+ai_trust = null
+morality = null
+
+[node name="===WorldState===" type="Node2D" parent="."]
+script = ExtResource("11_nwet0")
+warning_flash_path = NodePath("../===UI===/WarningFlash")
+fade_overlay_path = NodePath("../===UI===/FadeOverlay")
+
 [node name="=== TileMaps ===" type="Node2D" parent="."]
 
 [node name="TileMapLayer_Floor" type="TileMapLayer" parent="=== TileMaps ==="]
@@ -1973,29 +1988,57 @@ scavenge_scene = ExtResource("8_mloxi")
 
 [node name="Player" parent="." instance=ExtResource("4_f8hje")]
 z_index = 10
-position = Vector2(42, 63)
+position = Vector2(380, 106)
 
-[node name="===PlayerStats===" type="Node2D" parent="."]
-script = ExtResource("10_7ik1l")
-facility_stability = null
-ai_trust = null
-morality = null
+[node name="===UI===" type="Node2D" parent="."]
 
-[node name="===WorldState===" type="Node2D" parent="."]
-script = ExtResource("11_nwet0")
-warning_flash_path = NodePath("../WarningFlash")
-fade_overlay_path = NodePath("../FadeOverlay")
+[node name="DialogueLayer" type="CanvasLayer" parent="===UI==="]
+visible = false
 
-[node name="HUD" type="CanvasLayer" parent="."]
+[node name="ColorRect" type="ColorRect" parent="===UI===/DialogueLayer"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -566.0
+offset_top = -116.0
+offset_right = -526.0
+offset_bottom = -76.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(28.32862, 2.6784391)
+color = Color(0, 0, 0, 0.40392157)
 
-[node name="InventoryUI" parent="HUD" instance=ExtResource("9_n7cjv")]
-offset_left = -1127.0
-offset_top = 17.0
-offset_right = -1127.0
-offset_bottom = 17.0
-item_icon_size = Vector2(16, 16)
+[node name="DialogueBox" type="CanvasLayer" parent="===UI===/DialogueLayer"]
+script = ExtResource("18_awij6")
 
-[node name="WarningFlash" type="ColorRect" parent="."]
+[node name="SpeakerLabel" type="Label" parent="===UI===/DialogueLayer/DialogueBox"]
+offset_left = 17.0
+offset_top = 544.0
+offset_right = 57.0
+offset_bottom = 567.0
+scale = Vector2(2.6949322, 1.276565)
+
+[node name="TextLabel" type="RichTextLabel" parent="===UI===/DialogueLayer/DialogueBox"]
+offset_left = 156.0
+offset_top = 544.0
+offset_right = 196.0
+offset_bottom = 584.0
+scale = Vector2(24.360102, 2.120329)
+
+[node name="FadeOverlay" type="CanvasLayer" parent="===UI==="]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="===UI===/FadeOverlay"]
+offset_left = -132.0
+offset_top = -52.0
+offset_right = -91.99999
+offset_bottom = -12.0
+scale = Vector2(35.66003, 18.85324)
+color = Color(0, 0, 0, 1)
+
+[node name="WarningFlash" type="ColorRect" parent="===UI==="]
 offset_left = -100.0
 offset_top = -58.0
 offset_right = -60.0
@@ -2004,17 +2047,76 @@ scale = Vector2(20.600224, 11.582342)
 color = Color(0.8392157, 0.043137256, 0, 0)
 script = ExtResource("12_awij6")
 
-[node name="FadeOverlay" type="CanvasLayer" parent="."]
-visible = false
-script = ExtResource("13_4cowq")
+[node name="AINarratorHUD" parent="===UI===" instance=ExtResource("17_nwet0")]
+scale = Vector2(2, 2)
+transform = Transform2D(2, 0, 0, 2, 0, 0)
 
-[node name="ColorRect" type="ColorRect" parent="FadeOverlay"]
-offset_left = -132.0
-offset_top = -52.0
-offset_right = -91.99999
-offset_bottom = -12.0
-scale = Vector2(35.66003, 18.85324)
+[node name="AIIcon" parent="===UI===/AINarratorHUD" index="0"]
+offset_left = 528.5
+offset_top = 8.0
+offset_right = 1728.5
+offset_bottom = 1208.0
+
+[node name="TrustIndicator" parent="===UI===/AINarratorHUD" index="1"]
+offset_left = 528.5
+offset_top = 41.0
+offset_right = 568.5
+offset_bottom = 51.0
+
+[node name="HUD" type="CanvasLayer" parent="===UI==="]
+
+[node name="InventoryUI" parent="===UI===/HUD" instance=ExtResource("9_n7cjv")]
+offset_left = -1127.0
+offset_top = 17.0
+offset_right = -1127.0
+offset_bottom = 17.0
+item_icon_size = Vector2(16, 16)
+
+[node name="WipeConfirmPopup" type="AcceptDialog" parent="===UI===/HUD"]
+oversampling_override = 1.0
+initial_position = 1
+script = ExtResource("13_7ik1l")
+
+[node name="CutsceneLayer" type="CanvasLayer" parent="===UI==="]
+visible = false
+script = ExtResource("19_4cowq")
+
+[node name="Background" type="ColorRect" parent="===UI===/CutsceneLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="SpeakerLabel" type="Label" parent="===UI===/CutsceneLayer"]
+offset_right = 1152.0
+offset_bottom = 60.0
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextLabel" type="RichTextLabel" parent="===UI===/CutsceneLayer"]
+offset_top = 137.0
+offset_right = 1152.0
+offset_bottom = 537.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ContinuePrompt" type="Label" parent="===UI===/CutsceneLayer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -84.0
+offset_right = 1152.0
+offset_bottom = -24.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 24
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AINarrator" type="Node" parent="===UI==="]
+script = ExtResource("15_n7cjv")
 
 [node name="GlobalLight" type="CanvasModulate" parent="."]
 
@@ -2023,3 +2125,5 @@ color = Color(0, 0, 0, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DarkRoomArea"]
 position = Vector2(860, 86.625)
 shape = SubResource("RectangleShape2D_mloxi")
+
+[editable path="===UI===/AINarratorHUD"]

@@ -2,21 +2,14 @@ extends Node
 
 signal inventory_updated
 
-# -----------------------------------------------------
-# GRID INVENTORY SETTINGS
-# -----------------------------------------------------
 const GRID_ROWS := 4
 const GRID_COLUMNS := 6
 const MAX_SLOTS := GRID_ROWS * GRID_COLUMNS
 
-# inventory_slots is an ARRAY of inventory entries:
-# [ {"id": "scrap", "amount": 3}, {"id": "gem", "amount": 1}, ... ]
 var inventory_slots: Array = []
 
-# -----------------------------------------------------
 # Add an item by ID
 # Auto-sorts by rarity
-# -----------------------------------------------------
 func Add_Item(id: String, amount: int = 1):
 	if not ItemDatabase.ITEMS.has(id):
 		push_error("Item does not exist: " + id)
@@ -42,9 +35,6 @@ func Add_Item(id: String, amount: int = 1):
 	else:
 		print("Inventory FULL!")
 
-# -----------------------------------------------------
-# Remove item
-# -----------------------------------------------------
 func Remove_Item(id: String, amount: int = 1):
 	for slot in inventory_slots:
 		if slot.id == id:
@@ -55,24 +45,15 @@ func Remove_Item(id: String, amount: int = 1):
 			emit_signal("inventory_updated")
 			return
 
-# -----------------------------------------------------
-# Count how many player owns
-# -----------------------------------------------------
 func Count(id: String) -> int:
 	for slot in inventory_slots:
 		if slot.id == id:
 			return slot.amount
 	return 0
 
-# -----------------------------------------------------
-# Get entire grid inventory (for UI)
-# -----------------------------------------------------
 func Get_All() -> Array:
 	return inventory_slots.duplicate(true)
 
-# -----------------------------------------------------
-# Auto sort inventory by rarity → name
-# -----------------------------------------------------
 func _sort_inventory():
 	# Pass a callable to the comparison function
 	inventory_slots.sort_custom(Callable(self, "_sort_compare"))

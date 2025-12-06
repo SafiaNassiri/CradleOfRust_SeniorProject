@@ -1,5 +1,7 @@
 extends Node
 
+signal ai_trust_changed(new_trust: float) 
+
 # -------------------------
 # World Stats
 # -------------------------
@@ -52,6 +54,10 @@ func Update_Stability(change: float) -> void:
 func Update_Trust(change: float) -> void:
 	ai_trust = clamp(ai_trust + change, 0, 100)
 	print("DEBUG: AI Trust updated to", ai_trust)
+
+	# Emit signal
+	emit_signal("ai_trust_changed", ai_trust)
+
 	Check_Warning()
 	Check_GameOver()
 	Check_Dialogue_Triggers()
@@ -113,12 +119,15 @@ func _show_game_over_scene(_reason: String) -> void:
 	# Remove current level scene
 	if get_tree().current_scene != null:
 		get_tree().current_scene.queue_free()
-	
-	# Load GameOver scene
-	var scene = load("res://scenes/GameOver.tscn").instantiate()
-	get_tree().current_scene = scene
+
+	# Load GameOver scene properly
+	var game_over_scene = load("res://scenes/UI/GameOver.tscn").instantiate()
+	get_tree().root.add_child(game_over_scene)   # add to root, not setting current_scene directly
+	get_tree().current_scene = game_over_scene   # optional, but safe after adding to tree
 	get_tree().paused = false
+
 	print("Game Over Scene Loaded:", _reason)
+
 
 # -------------------------
 # Debug: Numpad Inputs
@@ -127,14 +136,14 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
 		match event.keycode:
 			KEY_KP_1, KEY_1:
-				Update_Stability(-90)
-				print("DEBUG: Facility set low!")
+				Update_Stability(-5)  # decrement by 5 per press
+				print("DEBUG: Facility decreased by 5 ->", facility_stability)
 			KEY_KP_2, KEY_2:
-				Update_Trust(-90)
-				print("DEBUG: AI Trust set low!")
+				Update_Trust(-5)      # decrement by 5 per press
+				print("DEBUG: AI Trust decreased by 5 ->", ai_trust)
 			KEY_KP_3, KEY_3:
-				Update_Morality(-90)
-				print("DEBUG: Morality set low!")
+				Update_Morality(-5)   # decrement by 5 per press
+				print("DEBUG: Morality decreased by 5 ->", morality)
 			KEY_KP_0, KEY_0:
 				Update_Stability(100)
 				Update_Trust(100)
