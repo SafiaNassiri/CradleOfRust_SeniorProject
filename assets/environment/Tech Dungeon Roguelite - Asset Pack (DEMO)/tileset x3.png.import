@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://50vjng3qt5fr"
-path="res://.godot/imported/Bob_sit_16x16.png-f4b37bccd1c42a9c3bf0cb2620b938c0.ctex"
+uid="uid://dw31ko12pmm50"
+path="res://.godot/imported/tileset x3.png-42763119578177d29d87143dea6d83df.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/environment/Modern_Interiors_Free_v2.2/Modern tiles_Free/Characters_free/Bob_sit_16x16.png"
-dest_files=["res://.godot/imported/Bob_sit_16x16.png-f4b37bccd1c42a9c3bf0cb2620b938c0.ctex"]
+source_file="res://assets/environment/Tech Dungeon Roguelite - Asset Pack (DEMO)/tileset x3.png"
+dest_files=["res://.godot/imported/tileset x3.png-42763119578177d29d87143dea6d83df.ctex"]
 
 [params]
 

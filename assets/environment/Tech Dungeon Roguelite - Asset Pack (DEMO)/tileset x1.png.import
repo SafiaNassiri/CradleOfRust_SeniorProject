@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cj5pc6vye6tiq"
-path="res://.godot/imported/Interiors_free_32x32.png-3ceb299f205198fd769c64a7511fd954.ctex"
+uid="uid://c0q6kvia2gslp"
+path="res://.godot/imported/tileset x1.png-6ff2c4972e04095f0e63533178e09c76.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/environment/Modern_Interiors_Free_v2.2/Modern tiles_Free/Interiors_free/32x32/Interiors_free_32x32.png"
-dest_files=["res://.godot/imported/Interiors_free_32x32.png-3ceb299f205198fd769c64a7511fd954.ctex"]
+source_file="res://assets/environment/Tech Dungeon Roguelite - Asset Pack (DEMO)/tileset x1.png"
+dest_files=["res://.godot/imported/tileset x1.png-6ff2c4972e04095f0e63533178e09c76.ctex"]
 
 [params]
 
