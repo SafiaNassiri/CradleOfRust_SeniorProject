@@ -40,6 +40,7 @@ func set_total_resources(value: int) -> void:
 # called when you want to display the panel
 func show_panel(gathered_amount: int) -> void:
 	set_total_resources(gathered_amount)
+	title_label.text = "Allocate Scrap (" + str(gathered_amount) + " available)"
 	show()
 	# optionally focus first control
 	repair_slider.grab_focus()

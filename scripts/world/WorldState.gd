@@ -24,6 +24,8 @@ const MORALITY_CRITICAL: float = 0.0
 @export var warning_flash_path: NodePath
 @export var fade_overlay_path: NodePath
 @export var allocation_panel: NodePath   # <-- This remains a NodePath
+@export var scrap_to_stability: float = 0.5
+@export var scrap_to_morality: float = 0.3
 
 var warning_flash_node: Node = null
 var fade_overlay: Node = null
@@ -160,19 +162,32 @@ func _input(event: InputEvent) -> void:
 
 func _show_allocation_panel():
 	if allocation_panel_node:
-		var gathered_amount = 10  # Temporary: replace later
-		allocation_panel_node.show_panel(gathered_amount)
+		var gathered_amount := 0
 
+		var player := get_tree().get_first_node_in_group("Player")
+		if player and player.has_method("get_scrap"):
+			gathered_amount = player.get_scrap()
+
+		allocation_panel_node.show_panel(gathered_amount)
 
 # -------------------------
 # Handle Allocation Result
 # -------------------------
 func _on_allocation_committed(repair_amount: int, self_amount: int) -> void:
-	print("ALLOCATION COMMITTED:", repair_amount, self_amount)
+	var total_spent := repair_amount + self_amount
 
-	# Apply changes
-	Update_Stability(repair_amount)
-	Update_Morality(self_amount)
+	var player := get_tree().get_first_node_in_group("Player")
+	if player and player.stats and player.stats.Spend_Scrap(total_spent):
+		var stability_delta := repair_amount * scrap_to_stability
+		var morality_delta := self_amount * scrap_to_morality
 
-	print("New Stability:", facility_stability)
-	print("New Morality:", morality)
+		Update_Stability(stability_delta)
+		Update_Morality(morality_delta)
+
+		print("ALLOCATION COMMITTED:",
+			"repair:", repair_amount,
+			"self:", self_amount,
+			"ΔStability:", stability_delta,
+			"ΔMorality:", morality_delta)
+	else:
+		print("Not enough scrap to allocate!")

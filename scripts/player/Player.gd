@@ -186,3 +186,8 @@ func print_inventory():
 	for i in inventory:
 		print(i)
 	print("---------------")
+	
+	#----------------RESOURCE ALLOCATION------------------
+	
+func get_scrap() -> int:
+	return stats.scrap
