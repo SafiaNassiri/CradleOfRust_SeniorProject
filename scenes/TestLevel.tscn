@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://bkc4yf3t4glhk"]
+[gd_scene load_steps=23 format=4 uid="uid://bkc4yf3t4glhk"]
 
 [ext_resource type="Texture2D" uid="uid://dnbdmq8con0rq" path="res://assets/environment/IndustrialEnvironment2025/Structures.png" id="1_652jm"]
 [ext_resource type="PackedScene" uid="uid://by4lkt3d8d78a" path="res://scenes/player.tscn" id="1_xclqy"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://c4nq2nryaf66k" path="res://scenes/ScavengeObject.tscn" id="6_5n3yh"]
 [ext_resource type="PackedScene" uid="uid://hui0g5p22l71" path="res://scenes/InventoryUI.tscn" id="7_0n17k"]
 [ext_resource type="Script" uid="uid://4s67t2s11dfq" path="res://scripts/player/PlayerStats.gd" id="8_g3y3g"]
+[ext_resource type="PackedScene" uid="uid://brjbghe5o6iwv" path="res://scenes/AllocationPanel.tscn" id="8_pyy5p"]
 [ext_resource type="Script" uid="uid://cv0y1b78plx8y" path="res://scripts/world/WorldState.gd" id="9_6e24c"]
 [ext_resource type="Script" uid="uid://bn8nkbnru77fa" path="res://scripts/ui/FadeOverlay.gd" id="10_5ycvo"]
 [ext_resource type="Script" uid="uid://b3u4hsx0xiq4" path="res://scripts/ui/WarningFlash.gd" id="10_7i0bt"]
@@ -1743,6 +1744,8 @@ offset_right = -1127.0
 offset_bottom = 17.0
 item_icon_size = Vector2(16, 16)
 
+[node name="AllocationPanel" parent="." instance=ExtResource("8_pyy5p")]
+
 [node name="===PlayerStats===" type="Node2D" parent="."]
 script = ExtResource("8_g3y3g")
 
@@ -1750,6 +1753,7 @@ script = ExtResource("8_g3y3g")
 script = ExtResource("9_6e24c")
 warning_flash_path = NodePath("../WarningFlash")
 fade_overlay_path = NodePath("../FadeOverlay")
+allocation_panel = NodePath("../AllocationPanel/AllocationPanel")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0

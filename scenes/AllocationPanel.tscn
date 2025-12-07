@@ -1,0 +1,73 @@
+[gd_scene load_steps=2 format=3 uid="uid://brjbghe5o6iwv"]
+
+[ext_resource type="Script" uid="uid://dqmt20yusfhqw" path="res://scripts/ui/AllocationPanel.gd" id="1_a7ip6"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AllocationPanel" type="CanvasLayer" parent="."]
+script = ExtResource("1_a7ip6")
+
+[node name="PanelContainer" type="PanelContainer" parent="AllocationPanel"]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="AllocationPanel/PanelContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="AllocationPanel/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="AllocationPanel/PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Allocation Decision" type="Label" parent="AllocationPanel/PanelContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="AllocationPanel/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TotalRow" type="HBoxContainer" parent="AllocationPanel/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Total Resources" type="Label" parent="AllocationPanel/PanelContainer/VBoxContainer/TotalRow"]
+layout_mode = 2
+text = "Total Resources:"
+
+[node name="TotalLabel" type="Label" parent="AllocationPanel/PanelContainer/VBoxContainer/TotalRow"]
+layout_mode = 2
+
+[node name="RepairRow" type="HBoxContainer" parent="AllocationPanel/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="AllocationPanel/PanelContainer/VBoxContainer/RepairRow"]
+layout_mode = 2
+text = "Allocate to Facility (Repair):"
+
+[node name="RepairSlider" type="HSlider" parent="AllocationPanel/PanelContainer/VBoxContainer/RepairRow"]
+layout_mode = 2
+
+[node name="SelfRow" type="HBoxContainer" parent="AllocationPanel/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="AllocationPanel/PanelContainer/VBoxContainer/SelfRow"]
+layout_mode = 2
+text = "Allocate to Self (Upgrade):"
+
+[node name="SelfSlider" type="HSlider" parent="AllocationPanel/PanelContainer/VBoxContainer/SelfRow"]
+layout_mode = 2
+
+[node name="RemainingLabel" type="Label" parent="AllocationPanel/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="AllocationPanel/PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CommitButton" type="Button" parent="AllocationPanel/PanelContainer/VBoxContainer/Buttons"]
+layout_mode = 2
+text = "Commit Decision"
