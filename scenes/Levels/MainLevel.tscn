@@ -1846,6 +1846,7 @@ region_rect = Rect2(144, 80, 32, 32)
 [node name="T1" type="Node2D" parent="=== Terminals ===/Supply Terminal" node_paths=PackedStringArray("player_node")]
 script = ExtResource("9_4cowq")
 rarity_filter = "common"
+items_needed_count = 3
 player_node = NodePath("../../../Player")
 world_state_path = NodePath("../../../===WorldState===")
 
@@ -1873,12 +1874,12 @@ shape = SubResource("RectangleShape2D_p0b77")
 [node name="Panel" type="Panel" parent="=== Terminals ===/Supply Terminal/T1"]
 offset_left = 421.0
 offset_top = -311.0
-offset_right = 571.0
+offset_right = 621.0
 offset_bottom = -241.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="=== Terminals ===/Supply Terminal/T1/Panel"]
 layout_mode = 0
-offset_right = 150.0
+offset_right = 200.0
 offset_bottom = 40.0
 
 [node name="ItemContainer" type="HBoxContainer" parent="=== Terminals ===/Supply Terminal/T1/Panel/VBoxContainer"]
@@ -1886,12 +1887,17 @@ layout_mode = 2
 
 [node name="PressELabel" type="Label" parent="=== Terminals ===/Supply Terminal/T1/Panel/VBoxContainer"]
 layout_mode = 2
-text = "Press E to interact"
+text = "Press E to deposit items"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="T2" type="Node2D" parent="=== Terminals ===/Supply Terminal"]
+[node name="T2" type="Node2D" parent="=== Terminals ===/Supply Terminal" node_paths=PackedStringArray("player_node")]
 position = Vector2(5, 255)
+script = ExtResource("9_4cowq")
+rarity_filter = "uncommon"
+items_needed_count = 3
+player_node = NodePath("../../../Player")
+world_state_path = NodePath("../../../===WorldState===")
 
 [node name="Sprite2D" type="Sprite2D" parent="=== Terminals ===/Supply Terminal/T2"]
 position = Vector2(492, -231)
@@ -1914,8 +1920,33 @@ rotation = -3.14159
 scale = Vector2(0.558627, -0.724889)
 shape = SubResource("RectangleShape2D_p0b77")
 
-[node name="T3" type="Node2D" parent="=== Terminals ===/Supply Terminal"]
+[node name="Panel" type="Panel" parent="=== Terminals ===/Supply Terminal/T2"]
+offset_left = 421.0
+offset_top = -311.0
+offset_right = 621.0
+offset_bottom = -241.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="=== Terminals ===/Supply Terminal/T2/Panel"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 40.0
+
+[node name="ItemContainer" type="HBoxContainer" parent="=== Terminals ===/Supply Terminal/T2/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="PressELabel" type="Label" parent="=== Terminals ===/Supply Terminal/T2/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Press E to deposit items"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="T3" type="Node2D" parent="=== Terminals ===/Supply Terminal" node_paths=PackedStringArray("player_node")]
 position = Vector2(-472, 260)
+script = ExtResource("9_4cowq")
+rarity_filter = "rare"
+items_needed_count = 3
+player_node = NodePath("../../../Player")
+world_state_path = NodePath("../../../===WorldState===")
 
 [node name="Sprite2D" type="Sprite2D" parent="=== Terminals ===/Supply Terminal/T3"]
 position = Vector2(492, -231)
@@ -1938,8 +1969,33 @@ rotation = -3.14159
 scale = Vector2(0.558627, -0.724889)
 shape = SubResource("RectangleShape2D_p0b77")
 
-[node name="T4" type="Node2D" parent="=== Terminals ===/Supply Terminal"]
+[node name="Panel" type="Panel" parent="=== Terminals ===/Supply Terminal/T3"]
+offset_left = 421.0
+offset_top = -311.0
+offset_right = 621.0
+offset_bottom = -241.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="=== Terminals ===/Supply Terminal/T3/Panel"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 40.0
+
+[node name="ItemContainer" type="HBoxContainer" parent="=== Terminals ===/Supply Terminal/T3/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="PressELabel" type="Label" parent="=== Terminals ===/Supply Terminal/T3/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Press E to deposit items"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="T4" type="Node2D" parent="=== Terminals ===/Supply Terminal" node_paths=PackedStringArray("player_node")]
 position = Vector2(480, 182)
+script = ExtResource("9_4cowq")
+rarity_filter = "legendary"
+items_needed_count = 3
+player_node = NodePath("../../../Player")
+world_state_path = NodePath("../../../===WorldState===")
 
 [node name="Sprite2D" type="Sprite2D" parent="=== Terminals ===/Supply Terminal/T4"]
 position = Vector2(492, -231)
@@ -1962,10 +2018,34 @@ rotation = -3.14159
 scale = Vector2(0.558627, -0.724889)
 shape = SubResource("RectangleShape2D_p0b77")
 
+[node name="Panel" type="Panel" parent="=== Terminals ===/Supply Terminal/T4"]
+offset_left = 421.0
+offset_top = -311.0
+offset_right = 621.0
+offset_bottom = -241.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="=== Terminals ===/Supply Terminal/T4/Panel"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 40.0
+
+[node name="ItemContainer" type="HBoxContainer" parent="=== Terminals ===/Supply Terminal/T4/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="PressELabel" type="Label" parent="=== Terminals ===/Supply Terminal/T4/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Press E to deposit items"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Esc Pod Terminal" type="Node2D" parent="=== Terminals ==="]
 
-[node name="T1" type="Node2D" parent="=== Terminals ===/Esc Pod Terminal"]
+[node name="T1" type="Node2D" parent="=== Terminals ===/Esc Pod Terminal" node_paths=PackedStringArray("player_node")]
 position = Vector2(-195, 260)
+script = ExtResource("9_4cowq")
+items_needed_count = 3
+player_node = NodePath("../../../Player")
+world_state_path = NodePath("../../../===WorldState===")
 
 [node name="Sprite2D" type="Sprite2D" parent="=== Terminals ===/Esc Pod Terminal/T1"]
 position = Vector2(492, -231)
@@ -1989,6 +2069,26 @@ position = Vector2(-0.358566, 7.06876)
 rotation = -3.14159
 scale = Vector2(0.558627, -0.724889)
 shape = SubResource("RectangleShape2D_p0b77")
+
+[node name="Panel" type="Panel" parent="=== Terminals ===/Esc Pod Terminal/T1"]
+offset_left = 421.0
+offset_top = -311.0
+offset_right = 621.0
+offset_bottom = -241.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="=== Terminals ===/Esc Pod Terminal/T1/Panel"]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 40.0
+
+[node name="ItemContainer" type="HBoxContainer" parent="=== Terminals ===/Esc Pod Terminal/T1/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="PressELabel" type="Label" parent="=== Terminals ===/Esc Pod Terminal/T1/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Press E to deposit items"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="=== SpawnPoints ===" type="Node2D" parent="."]
 
