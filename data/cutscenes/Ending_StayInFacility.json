@@ -1,0 +1,27 @@
+{
+	"cutscene": [
+		{
+			"speaker": "NARRATOR",
+			"lines": [
+				"You watch the systems stabilize, one by one.",
+				"The hum of machinery fills the empty halls.",
+				"You know your work will outlive you."
+			]
+		},
+		{
+			"speaker": "AI",
+			"lines": [
+				"You are integral to the facility's survival.",
+				"Future caretakers will follow your path.",
+				"Your legacy remains."
+			]
+		},
+		{
+			"speaker": "NARRATOR",
+			"lines": [
+				"As you sit at the control panel, a quiet calm surrounds you.",
+				"The facility lives on, guided by your hands."
+			]
+		}
+	]
+}

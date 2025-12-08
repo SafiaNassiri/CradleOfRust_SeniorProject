@@ -1,0 +1,20 @@
+{
+  "cutscene": [
+	{
+	  "speaker": "NARRATOR",
+	  "lines": [
+		"Everything goes dark around you.",
+		"An eerie silence fills the halls.",
+        "You have failed, but the facility endures."
+	  ]
+	},
+	{
+	  "speaker": "AI",
+	  "lines": [
+		"Failure has been recorded.",
+		"End of simulation.",
+        "Restart if you wish to try again."
+	  ]
+	}
+  ]
+}

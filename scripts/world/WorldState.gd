@@ -124,26 +124,31 @@ func _trigger_game_over(reason: String) -> void:
 	if warning_flash_node != null:
 		warning_flash_node.call("stop_flashing")
 
-	# Start fade, then show Game Over scene
-	if fade_overlay != null and fade_overlay.has_method("start_fade"):
-		fade_overlay.visible = true
-		fade_overlay.call("start_fade", reason)
-	else:
-		_show_game_over_scene(reason)
+	# Instead of fading to a separate Game Over scene, show cutscene in existing CanvasLayer
+	_show_game_over_cutscene(reason)
 
-func _show_game_over_scene(_reason: String) -> void:
-	# Remove current level scene
-	if get_tree().current_scene != null:
-		get_tree().current_scene.queue_free()
 
-	# Load GameOver scene 
-	var game_over_scene = load("res://scenes/UI/GameOver.tscn").instantiate()
-	get_tree().root.add_child(game_over_scene)   # add to root, not setting current_scene directly
-	get_tree().current_scene = game_over_scene   # optional, but safe after adding to tree
-	get_tree().paused = false
+func _show_game_over_cutscene(reason: String) -> void:
+	# Find your existing Cutscene node
+	var cutscene_layer = get_tree().get_first_node_in_group("CutsceneLayer")
+	if not cutscene_layer:
+		push_error("CutsceneLayer not found!")
+		return
 
-	print("Game Over Scene Loaded:", _reason)
+	# Decide JSON file based on reason
+	var json_file := ""
+	match reason:
+		"Facility Collapsed":
+			json_file = "res://data/cutscenes/failure_facility.json"
+		"AI Rebellion":
+			json_file = "res://data/cutscenes/failure_ai.json"
+		"Morality Failed":
+			json_file = "res://data/cutscenes/failure_morality.json"
+		_:
+			json_file = "res://data/cutscenes/failure_generic.json"
 
+	var sequence = cutscene_layer.load_cutscene(json_file)
+	cutscene_layer.play_cutscene(sequence)
 
 # -------------------------
 # Input Logic + Panel Toggle

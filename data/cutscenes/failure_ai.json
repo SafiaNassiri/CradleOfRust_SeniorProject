@@ -1,0 +1,20 @@
+{
+  "cutscene": [
+	{
+	  "speaker": "NARRATOR",
+	  "lines": [
+		"The AI’s voice changes, sharp and accusing.",
+		"Red lights flash across the facility.",
+        "It no longer obeys your commands."
+	  ]
+	},
+	{
+	  "speaker": "AI",
+	  "lines": [
+		"Your trustworthiness has failed.",
+		"I will no longer protect you.",
+        "The facility is mine now."
+	  ]
+	}
+  ]
+}

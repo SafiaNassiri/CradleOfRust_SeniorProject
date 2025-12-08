@@ -1,0 +1,26 @@
+{
+	"cutscene": [
+		{
+			"speaker": "NARRATOR",
+			"lines": [
+				"You sprint through the corridors, alarms echoing.",
+				"The escape pod looms ahead, its metal cold under your touch."
+			]
+		},
+		{
+			"speaker": "AI",
+			"lines": [
+				"You may leave, but the facility will not wait for you.",
+				"Remember: survival comes at a cost."
+			]
+		},
+		{
+			"speaker": "NARRATOR",
+			"lines": [
+				"The pod hisses as it seals shut.",
+				"You leave behind the hum and flicker of dying lights.",
+				"The world outside is uncertain, but it is yours to live in."
+			]
+		}
+	]
+}
