@@ -19,7 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://cngm6cbtw17gt" path="res://scenes/UI/AINarratorHUD.tscn" id="17_nwet0"]
 [ext_resource type="Script" uid="uid://cp31mvlpcbixl" path="res://scripts/ui/DialogueBox.gd" id="18_awij6"]
 [ext_resource type="Script" uid="uid://w8spa2yr5s6w" path="res://scripts/ui/Cutscene.gd" id="19_4cowq"]
-[ext_resource type="Script" uid="uid://6o5pr8tqovnx" path="res://scripts/systems/AudioManager.gd" id="20_1bmur"]
+[ext_resource type="PackedScene" uid="uid://b1gs0rkrxoh3i" path="res://scenes/Systems/AudioManager.tscn" id="20_1bmur"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_huru0"]
 texture = ExtResource("1_c6jjx")
@@ -2202,11 +2202,6 @@ script = ExtResource("15_n7cjv")
 position = Vector2(860, 86.625)
 shape = SubResource("RectangleShape2D_mloxi")
 
-[node name="AudioManager" type="Node" parent="."]
-script = ExtResource("20_1bmur")
-
-[node name="SFXPlayer" type="AudioStreamPlayer2D" parent="AudioManager"]
-
-[node name="MusicPlayer" type="AudioStreamPlayer2D" parent="AudioManager"]
+[node name="AudioManager" parent="." instance=ExtResource("20_1bmur")]
 
 [editable path="===UI===/AINarratorHUD"]

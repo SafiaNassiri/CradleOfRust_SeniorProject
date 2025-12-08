@@ -27,7 +27,7 @@ SystemData="*res://scripts/systems/SystemData.gd"
 PlayerStorage="*res://scripts/player/PlayerStorage.gd"
 DialogueManager="*res://scripts/systems/DialogueManager.gd"
 ResourceManager="*res://scripts/systems/ResourceManager.gd"
-AudioManager="*res://scripts/systems/AudioManager.gd"
+AudioManager="*res://scenes/Systems/AudioManager.tscn"
 
 [input]
 

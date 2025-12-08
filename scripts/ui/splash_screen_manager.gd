@@ -9,6 +9,10 @@ extends Control
 @export var splash_screen : TextureRect
 
 func _ready() -> void:
+	# Play intro music during splash
+	AudioManager.set_music_volume(-30) 
+	var splash_music = preload("res://assets/Audio/338367__cabled_mess__deep-04-low-rumbling-drone.wav")
+	AudioManager.play_music(splash_music)
 	fade()
 
 func fade() -> void:
