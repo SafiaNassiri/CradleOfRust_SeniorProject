@@ -33,15 +33,18 @@ func on_third_button():
 	
 func upgrade_max_health():
 	print("health")
-	inventory.count -= price
+	#inventory.count -= price
+	inventory.Remove_Scrap(5)
 	player.increase_max_health(health_increase)
 
 func upgrade_max_stamina():
 	print("stamina")
-	inventory.count -= price
+	#inventory.count -= price
+	inventory.Remove_Scrap(5)
 	player.increase_max_stamina(stamina_increase)
 
 func upgrade_stamina_recovery():
 	print("recover stamina")
-	inventory.count -= price
+	#inventory.count -= price
+	inventory.Remove_Scrap(5)
 	player.increase_stamina_recovery(recover_increase)

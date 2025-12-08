@@ -46,6 +46,22 @@ func Remove_Item(id: String, amount: int = 1):
 			emit_signal("inventory_updated")
 			return
 
+# --------------------- REMOVE SCRAP ---------------------
+func Remove_Scrap(amount: int):
+	var full_inventory = Get_All()
+	
+	for item in full_inventory:
+		if amount >= 1:
+			var id = item.id
+			Remove_Item(id, 1)
+			amount -= 1
+		else:
+			pass
+	count -= amount
+	print(count)
+	_sort_inventory()
+	emit_signal("inventory_updated")
+
 # --------------------- COUNT -----------------------
 func Count(id: String) -> int:
 	for slot in inventory_slots:
