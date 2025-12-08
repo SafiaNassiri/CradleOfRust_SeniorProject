@@ -167,11 +167,11 @@ func _try_deposit_items():
 		if player_ref.has_items(item_names):
 			# Player has all items
 			player_ref.remove_items(item_names)
-			print("✓ Deposited all items to", name)
+			print("Deposited all items to", name)
 			_complete_terminal()
 			emit_signal("demand_met")
 		else:
-			print("✗ Missing items!")
+			print("Missing items!")
 			_show_missing_items_feedback()
 			emit_signal("demand_failed", item_names)
 	else:
