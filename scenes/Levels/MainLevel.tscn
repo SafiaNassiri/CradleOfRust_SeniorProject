@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=4 uid="uid://doytmdtx42om7"]
+[gd_scene load_steps=31 format=4 uid="uid://doytmdtx42om7"]
 
 [ext_resource type="Texture2D" uid="uid://dnbdmq8con0rq" path="res://assets/environment/IndustrialEnvironment2025/Structures.png" id="1_c6jjx"]
 [ext_resource type="Script" uid="uid://bq7ym77v7edv6" path="res://scripts/world/main_level.gd" id="1_mloxi"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://b8oni52gil8o0" path="res://assets/environment/Lunar Lander Assets 24-11-20/Ships/Spaceships.png" id="5_sdvck"]
 [ext_resource type="Script" uid="uid://bs1wy3nx6mngh" path="res://scripts/world/SpawnPoint.gd" id="7_p0b77"]
 [ext_resource type="PackedScene" uid="uid://c4nq2nryaf66k" path="res://scenes/Interactibles/ScavengeObject.tscn" id="8_mloxi"]
+[ext_resource type="Script" uid="uid://bvl340nwlcqai" path="res://scripts/world/Terminal.gd" id="9_4cowq"]
 [ext_resource type="PackedScene" uid="uid://hui0g5p22l71" path="res://scenes/UI/InventoryUI.tscn" id="9_n7cjv"]
 [ext_resource type="Script" uid="uid://4s67t2s11dfq" path="res://scripts/player/PlayerStats.gd" id="10_7ik1l"]
 [ext_resource type="Script" uid="uid://cv0y1b78plx8y" path="res://scripts/world/WorldState.gd" id="11_nwet0"]
@@ -18,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://cngm6cbtw17gt" path="res://scenes/UI/AINarratorHUD.tscn" id="17_nwet0"]
 [ext_resource type="Script" uid="uid://cp31mvlpcbixl" path="res://scripts/ui/DialogueBox.gd" id="18_awij6"]
 [ext_resource type="Script" uid="uid://w8spa2yr5s6w" path="res://scripts/ui/Cutscene.gd" id="19_4cowq"]
+[ext_resource type="Script" uid="uid://6o5pr8tqovnx" path="res://scripts/systems/AudioManager.gd" id="20_1bmur"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_huru0"]
 texture = ExtResource("1_c6jjx")
@@ -1842,6 +1844,7 @@ region_rect = Rect2(144, 80, 32, 32)
 [node name="Supply Terminal" type="Node2D" parent="=== Terminals ==="]
 
 [node name="T1" type="Node2D" parent="=== Terminals ===/Supply Terminal"]
+script = ExtResource("9_4cowq")
 
 [node name="Sprite2D" type="Sprite2D" parent="=== Terminals ===/Supply Terminal/T1"]
 position = Vector2(492, -231)
@@ -1863,6 +1866,29 @@ position = Vector2(-0.358566, 7.06876)
 rotation = -3.14159
 scale = Vector2(0.558627, -0.724889)
 shape = SubResource("RectangleShape2D_p0b77")
+
+[node name="PromptPanel" type="Panel" parent="=== Terminals ===/Supply Terminal/T1"]
+offset_left = 436.0
+offset_top = 31.0
+offset_right = 476.0
+offset_bottom = 71.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="=== Terminals ===/Supply Terminal/T1/PromptPanel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TitleLabel" type="Label" parent="=== Terminals ===/Supply Terminal/T1/PromptPanel/HBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="=== Terminals ===/Supply Terminal/T1/PromptPanel/HBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="=== Terminals ===/Supply Terminal/T1/PromptPanel/HBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="=== Terminals ===/Supply Terminal/T1/PromptPanel/HBoxContainer"]
+layout_mode = 2
 
 [node name="T2" type="Node2D" parent="=== Terminals ===/Supply Terminal"]
 position = Vector2(5, 255)
@@ -2115,6 +2141,56 @@ theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="TerminalInteractionMenu" type="CanvasLayer" parent="===UI==="]
+layer = 9
+visible = false
+
+[node name="Panel" type="Panel" parent="===UI===/TerminalInteractionMenu"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -144.0
+offset_top = -51.0
+offset_right = 156.0
+offset_bottom = 99.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="VBoxContainer" parent="===UI===/TerminalInteractionMenu/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -75.0
+offset_right = 150.0
+offset_bottom = 75.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="===UI===/TerminalInteractionMenu/Panel/HBoxContainer"]
+layout_mode = 2
+text = "Deposit Items?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BtnGiveAll" type="Button" parent="===UI===/TerminalInteractionMenu/Panel/HBoxContainer"]
+layout_mode = 2
+text = "Give All (3 items)"
+
+[node name="BtnGiveTwo" type="Button" parent="===UI===/TerminalInteractionMenu/Panel/HBoxContainer"]
+layout_mode = 2
+text = "Give 2 items"
+
+[node name="BtnGiveNone" type="Button" parent="===UI===/TerminalInteractionMenu/Panel/HBoxContainer"]
+layout_mode = 2
+text = "Give None"
+
 [node name="AINarrator" type="Node" parent="===UI==="]
 script = ExtResource("15_n7cjv")
 
@@ -2125,5 +2201,12 @@ script = ExtResource("15_n7cjv")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DarkRoomArea"]
 position = Vector2(860, 86.625)
 shape = SubResource("RectangleShape2D_mloxi")
+
+[node name="AudioManager" type="Node" parent="."]
+script = ExtResource("20_1bmur")
+
+[node name="SFXPlayer" type="AudioStreamPlayer2D" parent="AudioManager"]
+
+[node name="MusicPlayer" type="AudioStreamPlayer2D" parent="AudioManager"]
 
 [editable path="===UI===/AINarratorHUD"]
