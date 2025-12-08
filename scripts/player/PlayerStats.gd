@@ -50,6 +50,7 @@ func Is_Dead() -> bool:
 func Update_Stamina(amount: float) -> void:
 	stamina += amount + stamina_modifier
 	stamina = clamp(stamina, 0, max_stamina)
+	#print(stamina)
 	emit_signal("stamina_changed", stamina)
 
 func Can_Use_Stamina(amount: float) -> bool:

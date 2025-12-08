@@ -9,10 +9,13 @@ const MAX_HEALTH = 100
 var health = MAX_HEALTH
 
 func _ready():
+	await get_tree().process_frame
+	var player = get_tree().get_first_node_in_group("Player")
+	print(player)
 	set_process(true)
 	
 	await get_tree().process_frame
-	player = get_tree().get_first_node_in_group("player")
+	player = get_tree().get_first_node_in_group("Player")
 	if not player:
 		push_error("No Player found")
 		return

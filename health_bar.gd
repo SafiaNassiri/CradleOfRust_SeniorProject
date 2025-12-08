@@ -1,14 +1,16 @@
 extends Node2D
 
-@onready var player = get_tree().get_first_node_in_group("player")
+@onready var player = get_tree().get_first_node_in_group("Player")
 @onready var p_stats = player.stats
 
-var health = p_stats.max_health
-var stam = p_stats.max_stamina
+var health = p_stats.health
+var stam = p_stats.stamina
 
 func _ready():
+	print(">>> READY fired for: ", self.name)
+	print("file is being read")
 	await get_tree().process_frame
-	player = get_tree().get_first_node_in_group("player")
+	player = get_tree().get_first_node_in_group("Player")
 	if not player:
 		push_error("No Player found")
 		return
@@ -19,11 +21,11 @@ func _ready():
 		return
 
 	# connect signlas
-	p_stats.health_updated.connect(_update_health_bar)
-	p_stats.stamina_changed.connect(_update_stamina_bar)
+	#p_stats.health_updated.connect(_update_health_bar)
+	#p_stats.stamina_changed.connect(_update_stamina_bar)
 
-	#p_stats.stamina_changed.connect(self.set_stamina_bar)
-#	p_stats.health_changed.connect(self.set_health_bar)
+	p_stats.stamina_changed.connect(self.set_stamina_bar)
+	p_stats.health_changed.connect(self.set_health_bar)
 
 	$HealthBar.max_value = p_stats.max_health
 	$StaminaBar.max_value = p_stats.max_stamina
@@ -53,6 +55,7 @@ func _update_health_bar(new_health):
 	$HealthBar.value = new_health
 
 func _update_stamina_bar(new_stamina):
+	print(new_stamina)
 	$StaminaBar.value = new_stamina
 
 
@@ -82,3 +85,10 @@ func damage():
 # do not keep: for testing purposes
 func _test_damage():
 	damage()
+
+
+func _enter_tree():
+	print(">>> ENTER TREE fired for: ", self.name)
+
+
+	

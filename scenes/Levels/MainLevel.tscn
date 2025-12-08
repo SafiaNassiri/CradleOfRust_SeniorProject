@@ -19,7 +19,7 @@
 [ext_resource type="Script" uid="uid://cvf12ryakc5lx" path="res://scripts/NPCs/AINarrator.gd" id="15_n7cjv"]
 [ext_resource type="PackedScene" uid="uid://cngm6cbtw17gt" path="res://scenes/UI/AINarratorHUD.tscn" id="17_nwet0"]
 [ext_resource type="Script" uid="uid://cp31mvlpcbixl" path="res://scripts/ui/DialogueBox.gd" id="18_awij6"]
-[ext_resource type="PackedScene" path="res://scenes/UI/HealthBar.tscn" id="18_gxenh"]
+[ext_resource type="PackedScene" uid="uid://dxcbd636okwfa" path="res://scenes/UI/HealthBar.tscn" id="18_gxenh"]
 [ext_resource type="Script" uid="uid://w8spa2yr5s6w" path="res://scripts/ui/Cutscene.gd" id="19_4cowq"]
 [ext_resource type="Script" uid="uid://6o5pr8tqovnx" path="res://scripts/systems/AudioManager.gd" id="20_1bmur"]
 
