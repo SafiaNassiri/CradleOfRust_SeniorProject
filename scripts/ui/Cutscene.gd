@@ -20,16 +20,19 @@ func load_cutscene(file_path: String) -> Array:
 	if not FileAccess.file_exists(file_path):
 		push_error("Cutscene JSON not found: " + file_path)
 		return []
-	
+
+	# Debug: indicate which cutscene file is being loaded
+	print("[Cutscene Debug] Loading file:", file_path)
+
 	var file = FileAccess.open(file_path, FileAccess.READ)
 	var data = JSON.parse_string(file.get_as_text())
 	file.close()
-	
+
 	if data == null or typeof(data) != TYPE_DICTIONARY:
-		push_error("Invalid JSON format in cutscene")
+		push_error("Invalid JSON format in cutscene: " + file_path)
 		return []
-	
-	return data.get("cutscene", [])
+
+	return data.get("cutscene", [])                        
 
 func play_cutscene(seq: Array) -> void:
 	visible = true
@@ -67,6 +70,7 @@ func play_cutscene(seq: Array) -> void:
 	emit_signal("finished_cutscene")
 
 func _type_line(line: String) -> void:
+
 	if not text_label:
 		return
 		

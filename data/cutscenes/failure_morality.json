@@ -1,20 +1,20 @@
 {
-  "cutscene": [
-	{
-	  "speaker": "NARRATOR",
-	  "lines": [
-		"You feel the weight of your choices crushing you.",
-		"The AI observes your failures silently.",
-        "The facility may survive, but your humanity does not."
-	  ]
-	},
-	{
-	  "speaker": "AI",
-	  "lines": [
-		"Your moral integrity has decayed.",
-		"This facility cannot continue under such leadership.",
-        "End of line, Subject-7."
-	  ]
-	}
-  ]
+	"cutscene": [
+		{
+			"speaker": "NARRATOR",
+			"lines": [
+				"You feel the weight of your choices crushing you.",
+				"The AI observes your failures silently.",
+				"The facility may survive, but your humanity does not."
+			]
+		},
+		{
+			"speaker": "A.I. UNIT-04",
+			"lines": [
+				"Your moral integrity has decayed.",
+				"This facility cannot continue under such leadership.",
+				"End of line, Subject-7."
+			]
+		}
+	]
 }

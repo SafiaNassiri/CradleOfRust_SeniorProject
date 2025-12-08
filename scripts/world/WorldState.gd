@@ -129,13 +129,11 @@ func _trigger_game_over(reason: String) -> void:
 
 
 func _show_game_over_cutscene(reason: String) -> void:
-	# Find your existing Cutscene node
-	var cutscene_layer = get_tree().get_first_node_in_group("CutsceneLayer")
+	var cutscene_layer = get_tree().current_scene.get_node("===UI===/CutsceneLayer")
 	if not cutscene_layer:
-		push_error("CutsceneLayer not found!")
+		push_error("CutsceneLayer node not found at ===UI===/CutsceneLayer!")
 		return
 
-	# Decide JSON file based on reason
 	var json_file := ""
 	match reason:
 		"Facility Collapsed":
@@ -147,8 +145,27 @@ func _show_game_over_cutscene(reason: String) -> void:
 		_:
 			json_file = "res://data/cutscenes/failure_generic.json"
 
+	# Debug: print which file is being used
+	print("[GameOver Debug] Triggered cutscene:", reason, "-> JSON file:", json_file)
+
 	var sequence = cutscene_layer.load_cutscene(json_file)
+
+	# Connect signal to know when the cutscene finishes
+	var callable_finished = Callable(self, "_on_cutscene_finished")
+	if not cutscene_layer.is_connected("finished_cutscene", callable_finished):
+		cutscene_layer.connect("finished_cutscene", callable_finished)
+		
 	cutscene_layer.play_cutscene(sequence)
+
+func _on_cutscene_finished():
+	print("Ending cutscene finished. Showing Game Over scene...")
+
+	var tree = get_tree()
+	if tree == null:
+		push_error("_on_cutscene_finished: get_tree() is null! Cannot change scene.")
+		return
+
+	tree.change_scene_to_file("res://scenes/UI/GameOver.tscn")
 
 # -------------------------
 # Input Logic + Panel Toggle
