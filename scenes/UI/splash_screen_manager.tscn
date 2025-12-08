@@ -1,10 +1,11 @@
-[gd_scene load_steps=4 format=3 uid="uid://ic4saqy1crwd"]
+[gd_scene load_steps=5 format=3 uid="uid://ic4saqy1crwd"]
 
 [ext_resource type="Script" uid="uid://cpxnfrglscrik" path="res://scripts/ui/splash_screen_manager.gd" id="1_rvh66"]
 [ext_resource type="PackedScene" uid="uid://dqe5o7pjcxutd" path="res://scenes/UI/main_menu.tscn" id="2_rvh66"]
 [ext_resource type="Texture2D" uid="uid://bnnutxe22vu40" path="res://assets/ui/GodotSplashScreen.png" id="3_r3362"]
+[ext_resource type="Texture2D" uid="uid://dbn11knvlirg" path="res://CoR_BG.png" id="4_jry8r"]
 
-[node name="SplashScreenManager" type="Control" node_paths=PackedStringArray("splash_screen")]
+[node name="SplashScreenManager" type="Control" node_paths=PackedStringArray("splash_screen_1", "splash_screen_2")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,7 +14,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_rvh66")
 load_scene = ExtResource("2_rvh66")
-splash_screen = NodePath("CenterContainer/TextureRect")
+splash_screen_1 = NodePath("CenterContainer/GodotLogo")
+splash_screen_2 = NodePath("CenterContainer/GameLogo")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -32,6 +34,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect" type="TextureRect" parent="CenterContainer"]
+[node name="GodotLogo" type="TextureRect" parent="CenterContainer"]
 layout_mode = 2
 texture = ExtResource("3_r3362")
+
+[node name="GameLogo" type="TextureRect" parent="CenterContainer"]
+visible = false
+custom_minimum_size = Vector2(1152, 648)
+layout_mode = 2
+texture = ExtResource("4_jry8r")
+expand_mode = 1

@@ -1,13 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://b1gs0rkrxoh3i"]
+[gd_scene load_steps=2 format=3 uid="uid://b1gs0rkrxoh3i"]
 
 [ext_resource type="Script" uid="uid://6o5pr8tqovnx" path="res://scripts/systems/AudioManager.gd" id="1_7g8c7"]
-[ext_resource type="AudioStream" uid="uid://bbcpysere04hh" path="res://assets/Audio/338367__cabled_mess__deep-04-low-rumbling-drone.wav" id="2_uxoe4"]
 
 [node name="AudioManager" type="Node"]
 script = ExtResource("1_7g8c7")
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_uxoe4")
-volume_db = -71.774
+autoplay = true
 
 [node name="SFXPlayer" type="AudioStreamPlayer" parent="."]

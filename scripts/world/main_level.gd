@@ -8,9 +8,6 @@ var dark_color = Color(0.1, 0.1, 0.2, 1)
 var bright_color = Color(1, 1, 1, 1)
 
 func _ready():
-	AudioManager.set_music_volume(-30) 	
-	var music = preload("res://assets/Audio/338367__cabled_mess__deep-04-low-rumbling-drone.wav")
-	AudioManager.play_music(music, true)
 	# Connect dark room signals
 	$DarkRoomArea.body_entered.connect(_on_dark_room_entered)
 	$DarkRoomArea.body_exited.connect(_on_dark_room_exited)

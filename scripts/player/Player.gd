@@ -7,6 +7,9 @@ const SaveTools = preload("res://scripts/systems/SaveTools.gd")
 @onready var stats = preload("res://scripts/player/PlayerStats.gd").new()
 @onready var storage = preload("res://scripts/player/PlayerStorage.gd").new()
 @onready var interact_hint: Label = $InteractHint
+@export var walk_sound: AudioStream
+@export var action_sound: AudioStream
+@export var item_pickup_sound: AudioStream
 
 # --- Player Stats ---
 var gender: String = "male"
@@ -23,6 +26,9 @@ var current_interactable: Node = null
 # --- Inventory ---
 var inventory_ui: Node = null
 var inventory := []
+
+# --- Sounds ---
+var is_walking_sound_playing := false
 
 # -------------------- PROCESS --------------------
 func _process(_delta):
@@ -101,9 +107,6 @@ func _handle_movement(delta):
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	input_vector = input_vector.normalized()
-	
-	#DEBUG
-	#print("Input Vector:", input_vector)
 
 	is_sprinting = Input.is_action_pressed("Dash") and stats.stamina > 0
 	var current_speed = speed * (sprint_multiplier if is_sprinting else 1.0)
@@ -115,7 +118,21 @@ func _handle_movement(delta):
 		stats.Use_Stamina(delta * 10)
 	else:
 		stats.Recover_Stamina(delta * 5)
+	
+	# Determine if moving
+	var moving = input_vector != Vector2.ZERO
 
+	# Play/stop walking sound
+	if moving:
+		if not is_walking_sound_playing:
+			AudioManager.play_sfx(walk_sound)
+			is_walking_sound_playing = true
+	else:
+		if is_walking_sound_playing:
+			AudioManager.sfx_player.stop()
+			is_walking_sound_playing = false
+
+	# Update animation with the correct state
 	_update_animation(input_vector)
 
 # -------------------- ANIMATION --------------------
@@ -171,6 +188,11 @@ func _setup_animations():
 # -------------------- INTERACTION --------------------
 func _check_interaction_input():
 	if current_interactable and Input.is_action_just_pressed("interact"):
+		# Play action sound
+		if action_sound:
+			AudioManager.play_sfx(action_sound)
+		
+		# Existing interaction calls
 		if current_interactable.has_method("_give_random_item"):
 			current_interactable._give_random_item()
 		elif current_interactable.has_method("_deposit_and_spawn"):
@@ -214,14 +236,15 @@ func remove_items(items_to_remove: Array) -> void:
 func add_item(item_name: String):
 	inventory.append(item_name)
 	print("Picked up:", item_name)
+	
+	if item_pickup_sound:
+		AudioManager.play_sfx(item_pickup_sound)
 
 func print_inventory():
 	print("--- Inventory ---")
 	for i in inventory:
 		print(i)
 	print("---------------")
-	
-	#----------------RESOURCE ALLOCATION------------------
-	
+
 func get_scrap() -> int:
 	return stats.scrap
