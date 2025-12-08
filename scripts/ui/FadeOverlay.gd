@@ -30,7 +30,7 @@ func _show_game_over_scene() -> void:
 		current.queue_free()
 
 	# Load the GameOver scene
-	var scene = load("res://scenes/GameOver.tscn").instantiate()
+	var scene = load("res://scenes/UI/GameOver.tscn").instantiate()
 	get_tree().root.add_child(scene)
 	get_tree().current_scene = scene
 	print("Game Over Scene Loaded:", game_over_reason)

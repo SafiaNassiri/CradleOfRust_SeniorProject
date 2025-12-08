@@ -1,5 +1,7 @@
 extends Node
 
+signal ai_trust_changed(new_trust: float) 
+
 # -------------------------
 # World Stats
 # -------------------------
@@ -35,13 +37,17 @@ var allocation_panel_node: Node = null   # <-- The resolved node
 # Ready
 # -------------------------
 func _ready():
+
 	# Resolve AllocationPanel node
 	if allocation_panel != NodePath("") and has_node(allocation_panel):
 		allocation_panel_node = get_node(allocation_panel)
 		allocation_panel_node.hide()  # Start hidden
 
-	# Resolve WarningFlash node
-	if warning_flash_path != NodePath("") and has_node(warning_flash_path):
+	#DEBUG
+	print("SystemData:", SystemData)
+	print("PlayerStorage:", PlayerStorage)
+	
+	if warning_flash_path != null and has_node(warning_flash_path):
 		warning_flash_node = get_node(warning_flash_path)
 
 	# Resolve FadeOverlay node
@@ -57,18 +63,25 @@ func Update_Stability(change: float) -> void:
 	print("DEBUG: Facility updated to", facility_stability)
 	Check_Warning()
 	Check_GameOver()
+	Check_Dialogue_Triggers()
 
 func Update_Trust(change: float) -> void:
 	ai_trust = clamp(ai_trust + change, 0, 100)
 	print("DEBUG: AI Trust updated to", ai_trust)
+
+	# Emit signal
+	emit_signal("ai_trust_changed", ai_trust)
+
 	Check_Warning()
 	Check_GameOver()
+	Check_Dialogue_Triggers()
 
 func Update_Morality(change: float) -> void:
 	morality = clamp(morality + change, 0, 100)
 	print("DEBUG: Morality updated to", morality)
 	Check_Warning()
 	Check_GameOver()
+	Check_Dialogue_Triggers()
 
 
 # -------------------------
@@ -123,10 +136,12 @@ func _show_game_over_scene(_reason: String) -> void:
 	if get_tree().current_scene != null:
 		get_tree().current_scene.queue_free()
 
-	# Load GameOver scene
-	var scene = load("res://scenes/GameOver.tscn").instantiate()
-	get_tree().current_scene = scene
+	# Load GameOver scene 
+	var game_over_scene = load("res://scenes/UI/GameOver.tscn").instantiate()
+	get_tree().root.add_child(game_over_scene)   # add to root, not setting current_scene directly
+	get_tree().current_scene = game_over_scene   # optional, but safe after adding to tree
 	get_tree().paused = false
+
 	print("Game Over Scene Loaded:", _reason)
 
 
@@ -137,14 +152,14 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
 		match event.keycode:
 			KEY_KP_1, KEY_1:
-				Update_Stability(-90)
-				print("DEBUG: Facility set low!")
+				Update_Stability(-5)  # decrement by 5 per press
+				print("DEBUG: Facility decreased by 5 ->", facility_stability)
 			KEY_KP_2, KEY_2:
-				Update_Trust(-90)
-				print("DEBUG: AI Trust set low!")
+				Update_Trust(-5)      # decrement by 5 per press
+				print("DEBUG: AI Trust decreased by 5 ->", ai_trust)
 			KEY_KP_3, KEY_3:
-				Update_Morality(-90)
-				print("DEBUG: Morality set low!")
+				Update_Morality(-5)   # decrement by 5 per press
+				print("DEBUG: Morality decreased by 5 ->", morality)
 			KEY_KP_0, KEY_0:
 				Update_Stability(100)
 				Update_Trust(100)
@@ -191,3 +206,75 @@ func _on_allocation_committed(repair_amount: int, self_amount: int) -> void:
 			"ΔMorality:", morality_delta)
 	else:
 		print("Not enough scrap to allocate!")
+func Apply_Facility_Upgrade(id: String) -> bool:
+	var data = SystemData.facility_upgrades.get(id)
+	if data == null:
+		push_error("Facility upgrade not found: " + id)
+		return false
+	# Check cost
+	var cost = data.get("cost", {})
+	if not PlayerStorage.has_resources(cost):
+		print("Not enough resources for facility upgrade!")
+		return false
+	# Pay cost
+	PlayerStorage.spend_resources(cost)
+	# Apply effects
+	if data.has("stability_bonus"):
+		facility_stability = clamp(facility_stability + data.stability_bonus, 0, 100)
+	if data.has("trust_bonus"):
+		ai_trust = clamp(ai_trust + data.trust_bonus, 0, 100)
+	if data.has("morality_bonus"):
+		morality = clamp(morality + data.morality_bonus, 0, 100)
+	# Trigger UI updates + warning check
+	Check_Warning()
+	Check_GameOver()
+	return true
+
+func Check_Dialogue_Triggers():
+	for id in DialogueManager.events.keys():
+		var ev = DialogueManager.get_event(id)
+		var trig = ev.get("trigger")
+
+		if trig.get("type") == "threshold":
+			var stat = trig.get("stat")
+			var cond = trig.get("condition")
+			var value = trig.get("value")
+
+			var current_val : float
+			
+			match stat:
+				"facility_stability":
+					current_val = facility_stability
+				"ai_trust":
+					current_val = ai_trust
+				"morality":
+					current_val = morality
+				_:
+					continue   # skip this event safely
+			
+			var passed := false
+			
+			match cond:
+				"<=":
+					passed = current_val <= value
+				"<":
+					passed = current_val < value
+				">=":
+					passed = current_val >= value
+				">":
+					passed = current_val > value
+				"==":
+					passed = current_val == value
+				_:
+					passed = false
+
+			if passed:
+				show_dialogue(id)
+
+func show_dialogue(id: String):
+	var lines = DialogueManager.get_lines(id)
+	if lines.size() > 0:
+		print("\n--- DIALOGUE EVENT:", id, "---")
+		for line in lines:
+			print(line)
+		print("----------------------------\n")

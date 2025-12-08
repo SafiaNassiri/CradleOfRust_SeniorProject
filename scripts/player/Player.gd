@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+const SaveTools = preload("res://scripts/systems/SaveTools.gd")
+
 # --- Nodes ---
 @onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var stats = preload("res://scripts/player/PlayerStats.gd").new()
@@ -24,17 +26,45 @@ var inventory := []
 
 # -------------------- PROCESS --------------------
 func _process(_delta):
+	# Toggle Inventory
 	if Input.is_action_just_pressed("toggle_inventory") and inventory_ui:
 		inventory_ui.toggle()
 		if inventory_ui.visible:
 			print_inventory()
 
-# -------------------- READY --------------------
-func _ready():
-	# Wait until player is fully inside the active scene tree
-	await get_tree().process_frame
-	_connect_ui()
+	# Wipe save: show confirmation popup
+	if Input.is_action_just_pressed("clear_save"):
+		_show_wipe_confirm()
 
+func _show_wipe_confirm():
+	var popup = get_tree().current_scene.get_node("===UI===/HUD/WipeConfirmPopup")
+	if popup:
+		popup.popup_centered()
+
+func _on_wipe_confirmed():
+	SaveTools.wipe_all_saves()
+
+func _ready():
+	# Disable player movement
+	set_physics_process(false)
+	set_process_input(false)
+
+	# Wait for scene to be ready
+	await get_tree().process_frame
+
+	# Load and play intro cutscene using CutsceneLayer
+	var cutscene_layer = get_node("../===UI===/CutsceneLayer")
+	if cutscene_layer:
+		var sequence = cutscene_layer.load_cutscene("res://data/cutscenes/intro.json")
+		cutscene_layer.play_cutscene(sequence)
+		await cutscene_layer.finished_cutscene
+	
+	# Re-enable player movement
+	set_physics_process(true)
+	set_process_input(true)
+	
+	# Continue with normal setup
+	_connect_ui()
 	_load_player_prefs()
 	_setup_animations()
 	storage.load(self)
@@ -46,17 +76,18 @@ func _ready():
 func _connect_ui():
 	var current_scene = get_tree().current_scene
 	if not current_scene:
-		push_error("❌ Current scene is null! Player loaded too early.")
+		push_error("Current scene is null! Player loaded too early.")
 		return
 
-	var hud = current_scene.get_node_or_null("HUD")
+	# Use full path from MainLevel
+	var hud = current_scene.get_node_or_null("===UI===/HUD")
 	if not hud:
-		push_error("❌ HUD not found! Make sure your scene has a HUD node.")
+		push_error("HUD not found at ===UI===/HUD!")
 		return
 
 	inventory_ui = hud.get_node_or_null("InventoryUI")
 	if not inventory_ui:
-		push_error("❌ InventoryUI missing under HUD!")
+		push_error("InventoryUI missing under HUD!")
 	else:
 		inventory_ui.visible = false
 
@@ -70,6 +101,9 @@ func _handle_movement(delta):
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	input_vector = input_vector.normalized()
+	
+	#DEBUG
+	#print("Input Vector:", input_vector)
 
 	is_sprinting = Input.is_action_pressed("Dash") and stats.stamina > 0
 	var current_speed = speed * (sprint_multiplier if is_sprinting else 1.0)
@@ -122,8 +156,8 @@ func _load_player_prefs():
 		var parsed = JSON.parse_string(file.get_as_text())
 		file.close()
 
-		if parsed.error == OK and parsed.result.has("gender"):
-			gender = parsed.result["gender"]
+		if parsed and parsed.has("gender"):
+			gender = parsed["gender"]
 
 func _setup_animations():
 	var frames_path = "res://assets/player/%s/%s.tres" % [gender, gender]

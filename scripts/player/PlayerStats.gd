@@ -130,3 +130,27 @@ func Load_State(state: Dictionary) -> void:
 	emit_signal("stability_updated", facility_stability)
 	emit_signal("trust_updated", ai_trust)
 	emit_signal("morality_updated", morality)
+
+func Apply_Upgrade_ID(id: String) -> bool:
+	# Read from SystemData
+	var data = SystemData.player_upgrades.get(id)
+	if data == null:
+		push_error("Upgrade not found in SystemData: " + id)
+		return false
+		# First check cost
+	var cost = data.get("cost", {})
+	if not PlayerStorage.has_resources(cost):
+		print("Not enough resources!")
+		return false
+	# Charge cost
+	PlayerStorage.spend_resources(cost)
+	# Apply effects
+	if data.has("bonus_health"):
+		max_health += data.bonus_health
+		health = min(health, max_health)
+	if data.has("bonus_stamina"):
+		max_stamina += data.bonus_stamina
+		stamina = min(stamina, max_stamina)
+	if data.has("speed_upgrade"):
+		upgrades["speed"] += data.speed_upgrade
+	return true

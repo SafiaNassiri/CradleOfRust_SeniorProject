@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://by4lkt3d8d78a"]
+[gd_scene load_steps=7 format=3 uid="uid://by4lkt3d8d78a"]
 
 [ext_resource type="Script" uid="uid://diqw64xbkds2c" path="res://scripts/player/Player.gd" id="1_o0kpf"]
 [ext_resource type="SpriteFrames" uid="uid://b07uoxhdbic75" path="res://assets/player/male/male.tres" id="2_dsn2m"]
@@ -8,6 +8,17 @@ size = Vector2(12, 10)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5q57w"]
 radius = 15.0333
+
+[sub_resource type="Gradient" id="Gradient_1kbk7"]
+offsets = PackedFloat32Array(0, 0.65898615, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.14285715, 0.14285715, 0.14285715, 1, 0, 0, 0, 1)
+metadata/_snap_count = 2
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gqjuk"]
+gradient = SubResource("Gradient_1kbk7")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(0.5, 0)
 
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["Player"]]
 script = ExtResource("1_o0kpf")
@@ -19,6 +30,7 @@ animation = &"idle_down"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(1, 5)
 shape = SubResource("RectangleShape2D_f8nhk")
+debug_color = Color(0.972549, 0, 0, 0.41960785)
 
 [node name="Area2D" type="Area2D" parent="."]
 
@@ -30,7 +42,13 @@ zoom = Vector2(2.5, 2.5)
 position_smoothing_enabled = true
 
 [node name="InteractHint" type="Label" parent="."]
-offset_left = -19.0
+offset_left = -21.0
 offset_top = -40.0
-offset_right = 21.0
+offset_right = 19.0
 offset_bottom = -17.0
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+enabled = false
+energy = 1.5
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_gqjuk")

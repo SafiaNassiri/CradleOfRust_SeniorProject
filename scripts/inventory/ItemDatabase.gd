@@ -30,3 +30,18 @@ func _load_items_from_folder(path: String, rarity: int):
 		file = dir.get_next()
 
 	dir.list_dir_end()
+
+
+func get_random_items(count: int) -> Array:
+	var keys := ITEMS.keys()
+	var result := []
+	while result.size() < count and keys.size() > 0:
+		var idx = randi() % keys.size()
+		result.append(keys[idx])
+		keys.remove_at(idx)
+	return result
+
+func get_icon(item_id: String) -> Texture2D:
+	if ITEMS.has(item_id):
+		return ITEMS[item_id]["icon"]
+	return null

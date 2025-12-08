@@ -1,0 +1,22 @@
+{
+	"player_upgrades": {
+		"starter_health": {
+			"cost": {"scrap": 50},
+			"bonus_health": 20
+		},
+		"speed_boost": {
+			"cost": {"scrap": 30},
+			"speed_upgrade": 1
+		}
+	},
+	"facility_upgrades": {
+		"reinforced_walls": {
+			"cost": {"scrap": 100},
+			"stability_bonus": 10
+		},
+		"ai_monitoring": {
+			"cost": {"scrap": 80},
+			"trust_bonus": 15
+		}
+	}
+}
