@@ -1,6 +1,10 @@
 extends Node
 
 signal ai_trust_changed(new_trust: float) 
+signal game_over_triggered(reason: String)
+signal stability_critical()
+signal trust_critical()
+signal morality_critical()
 
 # -------------------------
 # World Stats
@@ -21,27 +25,32 @@ const TRUST_CRITICAL: float = 0.0
 const MORALITY_CRITICAL: float = 0.0
 
 # -------------------------
+# Game Over State
+# -------------------------
+var game_over_active := false
+var game_over_reason := ""
+
+# -------------------------
 # Nodes / NodePaths
 # -------------------------
 @export var warning_flash_path: NodePath
 @export var fade_overlay_path: NodePath
-@export var allocation_panel: NodePath   # <-- This remains a NodePath
+@export var allocation_panel: NodePath
 @export var scrap_to_stability: float = 0.5
 @export var scrap_to_morality: float = 0.3
 
 var warning_flash_node: Node = null
 var fade_overlay: Node = null
-var allocation_panel_node: Node = null   # <-- The resolved node
+var allocation_panel_node: Node = null
 
 # -------------------------
 # Ready
 # -------------------------
 func _ready():
-
 	# Resolve AllocationPanel node
 	if allocation_panel != NodePath("") and has_node(allocation_panel):
 		allocation_panel_node = get_node(allocation_panel)
-		allocation_panel_node.hide()  # Start hidden
+		allocation_panel_node.hide()
 
 	#DEBUG
 	print("SystemData:", SystemData)
@@ -54,22 +63,27 @@ func _ready():
 	if fade_overlay_path != NodePath("") and has_node(fade_overlay_path):
 		fade_overlay = get_node(fade_overlay_path)
 
-
 # -------------------------
 # Update Functions
 # -------------------------
 func Update_Stability(change: float) -> void:
+	if game_over_active:
+		return
+		
 	facility_stability = clamp(facility_stability + change, 0, 100)
 	print("DEBUG: Facility updated to", facility_stability)
+	
 	Check_Warning()
 	Check_GameOver()
 	Check_Dialogue_Triggers()
 
 func Update_Trust(change: float) -> void:
+	if game_over_active:
+		return
+		
 	ai_trust = clamp(ai_trust + change, 0, 100)
 	print("DEBUG: AI Trust updated to", ai_trust)
 
-	# Emit signal
 	emit_signal("ai_trust_changed", ai_trust)
 
 	Check_Warning()
@@ -77,12 +91,15 @@ func Update_Trust(change: float) -> void:
 	Check_Dialogue_Triggers()
 
 func Update_Morality(change: float) -> void:
+	if game_over_active:
+		return
+		
 	morality = clamp(morality + change, 0, 100)
 	print("DEBUG: Morality updated to", morality)
+	
 	Check_Warning()
 	Check_GameOver()
 	Check_Dialogue_Triggers()
-
 
 # -------------------------
 # Warning Logic
@@ -105,33 +122,74 @@ func Check_Warning() -> void:
 		if warning_flash_node != null:
 			warning_flash_node.call("stop_flashing")
 
-
 # -------------------------
 # Game Over Logic
 # -------------------------
 func Check_GameOver() -> void:
+	if game_over_active:
+		return
+	
+	var triggered := false
+	var reason := ""
+	
+	# Check all failure conditions
 	if facility_stability <= STABILITY_CRITICAL:
-		_trigger_game_over("Facility Collapsed")
+		triggered = true
+		reason = "Facility Collapsed"
+		emit_signal("stability_critical")
+		
 	elif ai_trust <= TRUST_CRITICAL:
-		_trigger_game_over("AI Rebellion")
+		triggered = true
+		reason = "AI Rebellion"
+		emit_signal("trust_critical")
+		
 	elif morality <= MORALITY_CRITICAL:
-		_trigger_game_over("Morality Failed")
+		triggered = true
+		reason = "Morality Failed"
+		emit_signal("morality_critical")
+	
+	if triggered:
+		_trigger_game_over(reason)
 
 func _trigger_game_over(reason: String) -> void:
-	print("GAME OVER:", reason)
+	if game_over_active:
+		return
+	
+	game_over_active = true
+	game_over_reason = reason
+	
+	var padded_reason = reason + " ".repeat(max(0, 18 - reason.length()))
+	
+	print("╔════════════════════════════╗")
+	print("║      GAME OVER!            ║")
+	print("║  Reason:", padded_reason, "║")
+	print("╚════════════════════════════╝")
+
+	
+	emit_signal("game_over_triggered", reason)
 
 	# Stop warning flash
 	if warning_flash_node != null:
 		warning_flash_node.call("stop_flashing")
 
-	# Instead of fading to a separate Game Over scene, show cutscene in existing CanvasLayer
+	# Disable player input
+	_disable_player()
+	
+	# Show cutscene
 	_show_game_over_cutscene(reason)
 
+func _disable_player():
+	"""Disable player movement during game over"""
+	var player = get_tree().get_first_node_in_group("Player")
+	if player:
+		player.set_physics_process(false)
+		player.set_process_input(false)
 
 func _show_game_over_cutscene(reason: String) -> void:
-	var cutscene_layer = get_tree().current_scene.get_node("===UI===/CutsceneLayer")
+	var cutscene_layer = get_tree().current_scene.get_node_or_null("===UI===/CutsceneLayer")
 	if not cutscene_layer:
 		push_error("CutsceneLayer node not found at ===UI===/CutsceneLayer!")
+		_fallback_game_over(reason)
 		return
 
 	var json_file := ""
@@ -145,8 +203,13 @@ func _show_game_over_cutscene(reason: String) -> void:
 		_:
 			json_file = "res://data/cutscenes/failure_generic.json"
 
-	# Debug: print which file is being used
 	print("[GameOver Debug] Triggered cutscene:", reason, "-> JSON file:", json_file)
+
+	# Check if file exists
+	if not FileAccess.file_exists(json_file):
+		push_error("Cutscene file not found:", json_file)
+		_fallback_game_over(reason)
+		return
 
 	var sequence = cutscene_layer.load_cutscene(json_file)
 
@@ -156,6 +219,12 @@ func _show_game_over_cutscene(reason: String) -> void:
 		cutscene_layer.connect("finished_cutscene", callable_finished)
 		
 	cutscene_layer.play_cutscene(sequence)
+
+func _fallback_game_over(reason: String):
+	"""Fallback if cutscene fails - go directly to game over screen"""
+	print("[GameOver] Using fallback - going directly to GameOver scene")
+	await get_tree().create_timer(2.0).timeout
+	get_tree().change_scene_to_file("res://scenes/UI/GameOver.tscn")
 
 func _on_cutscene_finished():
 	print("Ending cutscene finished. Showing Game Over scene...")
@@ -171,16 +240,20 @@ func _on_cutscene_finished():
 # Input Logic + Panel Toggle
 # -------------------------
 func _input(event: InputEvent) -> void:
+	# Disable debug keys during game over
+	if game_over_active:
+		return
+		
 	if event is InputEventKey and event.pressed:
 		match event.keycode:
 			KEY_KP_1, KEY_1:
-				Update_Stability(-5)  # decrement by 5 per press
+				Update_Stability(-5)
 				print("DEBUG: Facility decreased by 5 ->", facility_stability)
 			KEY_KP_2, KEY_2:
-				Update_Trust(-5)      # decrement by 5 per press
+				Update_Trust(-5)
 				print("DEBUG: AI Trust decreased by 5 ->", ai_trust)
 			KEY_KP_3, KEY_3:
-				Update_Morality(-5)   # decrement by 5 per press
+				Update_Morality(-5)
 				print("DEBUG: Morality decreased by 5 ->", morality)
 			KEY_KP_0, KEY_0:
 				Update_Stability(100)
@@ -195,7 +268,6 @@ func _input(event: InputEvent) -> void:
 				allocation_panel_node.hide()
 			else:
 				_show_allocation_panel()
-
 
 func _show_allocation_panel():
 	if allocation_panel_node:
@@ -228,18 +300,22 @@ func _on_allocation_committed(repair_amount: int, self_amount: int) -> void:
 			"ΔMorality:", morality_delta)
 	else:
 		print("Not enough scrap to allocate!")
+
 func Apply_Facility_Upgrade(id: String) -> bool:
 	var data = SystemData.facility_upgrades.get(id)
 	if data == null:
 		push_error("Facility upgrade not found: " + id)
 		return false
+	
 	# Check cost
 	var cost = data.get("cost", {})
 	if not PlayerStorage.has_resources(cost):
 		print("Not enough resources for facility upgrade!")
 		return false
+	
 	# Pay cost
 	PlayerStorage.spend_resources(cost)
+	
 	# Apply effects
 	if data.has("stability_bonus"):
 		facility_stability = clamp(facility_stability + data.stability_bonus, 0, 100)
@@ -247,6 +323,7 @@ func Apply_Facility_Upgrade(id: String) -> bool:
 		ai_trust = clamp(ai_trust + data.trust_bonus, 0, 100)
 	if data.has("morality_bonus"):
 		morality = clamp(morality + data.morality_bonus, 0, 100)
+	
 	# Trigger UI updates + warning check
 	Check_Warning()
 	Check_GameOver()
@@ -272,7 +349,7 @@ func Check_Dialogue_Triggers():
 				"morality":
 					current_val = morality
 				_:
-					continue   # skip this event safely
+					continue
 			
 			var passed := false
 			

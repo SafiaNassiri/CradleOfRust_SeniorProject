@@ -1843,11 +1843,14 @@ region_rect = Rect2(144, 80, 32, 32)
 
 [node name="Supply Terminal" type="Node2D" parent="=== Terminals ==="]
 
-[node name="T1" type="Node2D" parent="=== Terminals ===/Supply Terminal"]
+[node name="T1" type="Node2D" parent="=== Terminals ===/Supply Terminal" node_paths=PackedStringArray("player_node")]
 script = ExtResource("9_4cowq")
+rarity_filter = "common"
+player_node = NodePath("../../../Player")
+world_state_path = NodePath("../../../===WorldState===")
 
 [node name="Sprite2D" type="Sprite2D" parent="=== Terminals ===/Supply Terminal/T1"]
-position = Vector2(492, -231)
+position = Vector2(491, -232)
 texture = ExtResource("2_stc1m")
 region_enabled = true
 region_rect = Rect2(32, 96, 32, 32)
@@ -1867,28 +1870,25 @@ rotation = -3.14159
 scale = Vector2(0.558627, -0.724889)
 shape = SubResource("RectangleShape2D_p0b77")
 
-[node name="PromptPanel" type="Panel" parent="=== Terminals ===/Supply Terminal/T1"]
-offset_left = 436.0
-offset_top = 31.0
-offset_right = 476.0
-offset_bottom = 71.0
+[node name="Panel" type="Panel" parent="=== Terminals ===/Supply Terminal/T1"]
+offset_left = 421.0
+offset_top = -311.0
+offset_right = 571.0
+offset_bottom = -241.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="=== Terminals ===/Supply Terminal/T1/PromptPanel"]
+[node name="VBoxContainer" type="VBoxContainer" parent="=== Terminals ===/Supply Terminal/T1/Panel"]
 layout_mode = 0
-offset_right = 40.0
+offset_right = 150.0
 offset_bottom = 40.0
 
-[node name="TitleLabel" type="Label" parent="=== Terminals ===/Supply Terminal/T1/PromptPanel/HBoxContainer"]
+[node name="ItemContainer" type="HBoxContainer" parent="=== Terminals ===/Supply Terminal/T1/Panel/VBoxContainer"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="=== Terminals ===/Supply Terminal/T1/PromptPanel/HBoxContainer"]
+[node name="PressELabel" type="Label" parent="=== Terminals ===/Supply Terminal/T1/Panel/VBoxContainer"]
 layout_mode = 2
-
-[node name="TextureRect2" type="TextureRect" parent="=== Terminals ===/Supply Terminal/T1/PromptPanel/HBoxContainer"]
-layout_mode = 2
-
-[node name="TextureRect3" type="TextureRect" parent="=== Terminals ===/Supply Terminal/T1/PromptPanel/HBoxContainer"]
-layout_mode = 2
+text = "Press E to interact"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="T2" type="Node2D" parent="=== Terminals ===/Supply Terminal"]
 position = Vector2(5, 255)
@@ -2109,6 +2109,7 @@ initial_position = 1
 script = ExtResource("13_7ik1l")
 
 [node name="CutsceneLayer" type="CanvasLayer" parent="===UI==="]
+visible = false
 script = ExtResource("19_4cowq")
 
 [node name="Background" type="ColorRect" parent="===UI===/CutsceneLayer"]

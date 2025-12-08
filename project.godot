@@ -28,6 +28,7 @@ PlayerStorage="*res://scripts/player/PlayerStorage.gd"
 DialogueManager="*res://scripts/systems/DialogueManager.gd"
 ResourceManager="*res://scripts/systems/ResourceManager.gd"
 AudioManager="*res://scenes/Systems/AudioManager.tscn"
+FacilityDemands="*res://scripts/world/FacilityDemands.gd"
 
 [input]
 

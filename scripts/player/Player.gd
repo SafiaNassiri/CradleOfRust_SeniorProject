@@ -223,17 +223,49 @@ func _exit_tree():
 	storage.save(self)
 
 # -------------------- INVENTORY --------------------
+func _normalize_item_name(x) -> String:
+	# Accept strings or dicts and normalize to lowercase, trimmed string
+	if typeof(x) == TYPE_DICTIONARY and x.has("name"):
+		x = x["name"]
+	return str(x).strip_edges().to_lower()
+
 func has_items(required_items: Array) -> bool:
-	for item in required_items:
-		if item not in inventory:
+	# required_items may be array of strings OR array of dicts { "name": "..." }
+	for req in required_items:
+		var want_name = _normalize_item_name(req)
+
+		var found := false
+		for inv_item in inventory:
+			var inv_name = _normalize_item_name(inv_item)
+			if inv_name == want_name:
+				found = true
+				break
+		if not found:
+			# debug: show what failed
+			print("Player.has_items: missing ->", want_name, "inventory:", inventory)
 			return false
 	return true
 
 func remove_items(items_to_remove: Array) -> void:
-	for item in items_to_remove:
-		inventory.erase(item)
+	# Remove one matching instance per requested item (works with dicts or strings)
+	for rem in items_to_remove:
+		var want_name = _normalize_item_name(rem)
+
+		# iterate backwards so remove_at is safe
+		var removed := false
+		for i in range(inventory.size() - 1, -1, -1):
+			var inv_name = _normalize_item_name(inventory[i])
+			if inv_name == want_name:
+				inventory.remove_at(i)
+				removed = true
+				break
+		if not removed:
+			# debug: couldn't find one to remove (shouldn't happen if has_items was used first)
+			print("Player.remove_items: couldn't remove", want_name, "inventory currently:", inventory)
 
 func add_item(item_name: String):
+	# Keep the stored inventory as the original string (not normalized) to preserve display,
+	# but the comparison functions above will match case-insensitively.
 	inventory.append(item_name)
 	print("Picked up:", item_name)
 	
@@ -241,10 +273,6 @@ func add_item(item_name: String):
 		AudioManager.play_sfx(item_pickup_sound)
 
 func print_inventory():
-	print("--- Inventory ---")
-	for i in inventory:
-		print(i)
-	print("---------------")
-
-func get_scrap() -> int:
-	return stats.scrap
+	print("=== Player Inventory ===")
+	for item in inventory:
+		print(" - ", item)
