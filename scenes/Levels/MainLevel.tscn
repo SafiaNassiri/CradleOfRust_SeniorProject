@@ -1737,9 +1737,6 @@ script = ExtResource("1_mloxi")
 
 [node name="===PlayerStats===" type="Node2D" parent="."]
 script = ExtResource("10_7ik1l")
-facility_stability = null
-ai_trust = null
-morality = null
 
 [node name="===WorldState===" type="Node2D" parent="."]
 script = ExtResource("11_nwet0")

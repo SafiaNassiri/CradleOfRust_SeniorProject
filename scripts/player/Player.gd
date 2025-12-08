@@ -49,13 +49,14 @@ func _on_wipe_confirmed():
 	SaveTools.wipe_all_saves()
 
 func _ready():
-	#playerupgrade.get_node("CanvasLayer").visible = false
+	
 	add_to_group("Player")
 	# Load and instance the scene
 	var playerupgrade_scene = load("res://scenes/UI/player_upgrade.tscn")
 	playerupgrade = playerupgrade_scene.instantiate()
 	add_child(playerupgrade)
-
+	playerupgrade.get_node("CanvasLayer").visible = false
+	
 	# Start hidden
 	#playerupgrade.hide()
 	

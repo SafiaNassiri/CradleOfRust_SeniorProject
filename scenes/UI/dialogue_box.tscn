@@ -83,7 +83,6 @@ size_flags_vertical = 0
 size_flags_stretch_ratio = 0.0
 theme_override_fonts/font = ExtResource("1_rc1id")
 theme_override_font_sizes/font_size = 45
-text = "The quick brown fox jumped over the lazy river and then went MADSSSJKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKD"
 horizontal_alignment = 3
 vertical_alignment = 3
 autowrap_mode = 2

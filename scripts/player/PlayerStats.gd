@@ -57,8 +57,8 @@ func Can_Use_Stamina(amount: float) -> bool:
 
 func Use_Stamina(amount: float) -> bool:
 	if Can_Use_Stamina(amount):
-		emit_signal("stamina_changed", stamina)
 		Update_Stamina(-amount)
+		#emit_signal("stamina_changed", stamina)
 		return true
 	return false
 
