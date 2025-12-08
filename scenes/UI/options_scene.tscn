@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3 uid="uid://dvj3nxym535r4"]
+
+[ext_resource type="Script" uid="uid://je7dht8j8ipm" path="res://scripts/systems/options_scene.gd" id="1_rwfm2"]
+[ext_resource type="Texture2D" uid="uid://c5mh345ocg7xj" path="res://assets/environment/backgroundanimatedparallax - OPTIONS.png" id="1_srggy"]
+[ext_resource type="FontFile" uid="uid://b2sgytwukhekn" path="res://assets/ui/Complete_UI_Essential_Pack_Free/Complete_UI_Essential_Pack_Free/01_Flat_Theme/Aseprite/7pxMONOkeychainn.ttf" id="3_uceq7"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g30mg"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="OptionsScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rwfm2")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_direction = 4
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -436.0
+offset_top = -180.0
+offset_right = 396.0
+offset_bottom = 140.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("1_srggy")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.019965278
+anchor_top = 0.030864198
+anchor_right = 0.1484375
+anchor_bottom = 0.12654321
+metadata/_edit_use_anchors_ = true
+
+[node name="BackButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("3_uceq7")
+theme_override_font_sizes/font_size = 80
+theme_override_styles/normal = SubResource("StyleBoxFlat_g30mg")
+text = "BACK"

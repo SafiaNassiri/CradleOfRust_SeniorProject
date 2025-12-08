@@ -2,11 +2,15 @@ extends CharacterBody2D
 
 const SaveTools = preload("res://scripts/systems/SaveTools.gd")
 
+
 # --- Nodes ---
 @onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var stats = preload("res://scripts/player/PlayerStats.gd").new()
 @onready var storage = preload("res://scripts/player/PlayerStorage.gd").new()
 @onready var interact_hint: Label = $InteractHint
+var playerupgrade 
+
+
 
 # --- Player Stats ---
 var gender: String = "male"
@@ -45,6 +49,16 @@ func _on_wipe_confirmed():
 	SaveTools.wipe_all_saves()
 
 func _ready():
+#	playerupgrade.get_node("CanvasLayer").visible = false
+	add_to_group("Player")
+	# Load and instance the scene
+	var playerupgrade_scene = load("res://scenes/UI/player_upgrade.tscn")
+	playerupgrade = playerupgrade_scene.instantiate()
+	add_child(playerupgrade)
+
+	# Start hidden
+	#playerupgrade.hide()
+	
 	# Disable player movement
 	set_physics_process(false)
 	set_process_input(false)
@@ -225,3 +239,19 @@ func print_inventory():
 	
 func get_scrap() -> int:
 	return stats.scrap
+	
+# EVIL TESTING FOR MY EVIL PLAYER UPGRADE REMOVE THIS WHEN BINDED TO ACTUAL TERMINAL
+func _input(event):
+	if Input.is_action_just_pressed("t"):
+		print("pressed?")
+		_toggle_player_upgrade()
+
+
+func _toggle_player_upgrade():
+	if playerupgrade.visible:
+		print("hide")
+		playerupgrade.hide()
+		playerupgrade.get_node("CanvasLayer").visible = false
+	else:
+		playerupgrade.get_node("CanvasLayer").visible = true
+		playerupgrade.show()

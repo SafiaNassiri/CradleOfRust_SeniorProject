@@ -1,6 +1,6 @@
 extends Control
 
-@onready var player = get_tree().get_first_node_in_group("player")
+@onready var player = get_tree().get_first_node_in_group("Player")
 var price = 5
 var health_increase = 50
 var stamina_increase = 50
@@ -8,7 +8,6 @@ var recover_increase = 25
 
 
 func _ready():
-	player
 	$CanvasLayer/Panel/HealthB.pressed.connect(on_first_button)
 	$CanvasLayer/Panel/StamB.pressed.connect(on_second_button)
 	$CanvasLayer/Panel/RecB.pressed.connect(on_third_button)
