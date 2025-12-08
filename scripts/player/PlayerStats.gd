@@ -6,6 +6,7 @@ extends Node
 var max_health: float = 100.0
 var health: float = max_health
 var max_stamina: float = 100.0
+var rec_stamina: float = 5.0
 var stamina: float = max_stamina
 var scrap: int = 0
 

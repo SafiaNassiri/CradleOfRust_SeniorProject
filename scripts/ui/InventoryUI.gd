@@ -8,6 +8,9 @@ extends Control
 @onready var scroll: ScrollContainer = $PanelContainer/VBoxContainer/ScrollContainer
 @onready var grid: VBoxContainer = $PanelContainer/VBoxContainer/ScrollContainer/ItemsVBox
 @onready var header_label: Label = $PanelContainer/VBoxContainer/Label
+@onready var player_upgrade = $"."
+
+#var item_count = 0
 
 func _ready():
 	var player = get_tree().get_first_node_in_group("player")
@@ -38,6 +41,8 @@ func update_inventory():
 
 	# Add items vertically
 	for item_data in items:
+		#item_count += 1
+		#print(item_count)
 		var hbox = HBoxContainer.new()
 		hbox.size_flags_horizontal = Control.SIZE_FILL
 		hbox.size_flags_vertical = Control.SIZE_FILL

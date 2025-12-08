@@ -129,7 +129,7 @@ func _handle_movement(delta):
 	if is_sprinting:
 		stats.Use_Stamina(delta * 10)
 	else:
-		stats.Recover_Stamina(delta * 5)
+		stats.Recover_Stamina(delta * stats.rec_stamina)
 
 	_update_animation(input_vector)
 
@@ -230,7 +230,9 @@ func remove_items(items_to_remove: Array) -> void:
 func add_item(item_name: String):
 	inventory.append(item_name)
 	stats.scrap += 1
+	print("hal;skdjfa;lskdjfa;sldkfja;lsdkfja;sldkfja;sldfkjasdf;lkj")
 	print(stats.scrap)
+	print("add_item function ^")
 	print("Picked up:", item_name)
 
 func print_inventory():
@@ -244,16 +246,29 @@ func print_inventory():
 func get_scrap() -> int:
 	return stats.scrap
 	
+ #----------------------INCREASE STATS--------------------
+func increase_max_health(amount):
+	stats.max_health += amount
+	stats.health = stats.max_health
+
+func increase_max_stamina(amount):
+	print(stats.max_stamina)
+	stats.max_stamina += amount
+
+func increase_stamina_recovery(amount):
+	stats.rec_stamina += amount
+	pass
+	
 # EVIL TESTING FOR MY EVIL PLAYER UPGRADE REMOVE THIS WHEN BINDED TO ACTUAL TERMINAL
 func _input(event):
 	if Input.is_action_just_pressed("t"):
-		print("pressed?")
+		#print("pressed?")
 		_toggle_player_upgrade()
 
 
 func _toggle_player_upgrade():
 	if playerupgrade.visible:
-		print("hide")
+		#print("hide")
 		playerupgrade.hide()
 		playerupgrade.get_node("CanvasLayer").visible = false
 	else:
