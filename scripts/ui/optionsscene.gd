@@ -1,6 +1,6 @@
 extends Control
 
-@onready var main_menu_scene: PackedScene = preload("res://scenes/main_menu.tscn")
+@onready var main_menu_scene: PackedScene = preload("res://scenes/UI/main_menu.tscn")
 @onready var player = preload("res://scripts/player/Player.gd").new()
 
 var sound = AudioServer.get_bus_index("Sound")
