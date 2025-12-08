@@ -11,8 +11,8 @@ func _ready():
 	# Connect dark room signals
 	$DarkRoomArea.body_entered.connect(_on_dark_room_entered)
 	$DarkRoomArea.body_exited.connect(_on_dark_room_exited)
-	var bgm = load("res://audio/music/your_track.ogg")
-	AudioManager.play_music(bgm)
+	#var bgm = load("res://audio/music/your_track.ogg")
+ 	#AudioManager.play_music(bgm)
 
 func _on_dark_room_entered(body):
 	if body.name == "Player":
