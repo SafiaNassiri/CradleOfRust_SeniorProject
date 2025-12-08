@@ -49,7 +49,7 @@ func _on_wipe_confirmed():
 	SaveTools.wipe_all_saves()
 
 func _ready():
-#	playerupgrade.get_node("CanvasLayer").visible = false
+	#playerupgrade.get_node("CanvasLayer").visible = false
 	add_to_group("Player")
 	# Load and instance the scene
 	var playerupgrade_scene = load("res://scenes/UI/player_upgrade.tscn")
@@ -224,9 +224,12 @@ func has_items(required_items: Array) -> bool:
 func remove_items(items_to_remove: Array) -> void:
 	for item in items_to_remove:
 		inventory.erase(item)
+		stats.scrap -= 1
 
 func add_item(item_name: String):
 	inventory.append(item_name)
+	stats.scrap += 1
+	print(stats.scrap)
 	print("Picked up:", item_name)
 
 func print_inventory():

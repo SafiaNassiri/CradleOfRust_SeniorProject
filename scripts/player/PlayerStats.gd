@@ -18,6 +18,9 @@ var scrap: int = 0
 const STABILITY_CRITICAL: float = 20.0
 const TRUST_CRITICAL: float = 20.0
 
+# Signals
+signal stamina_changed(new_stamina)
+
 # Upgrades / Modifiers
 var upgrades = {
 	"speed": 0,
@@ -47,12 +50,14 @@ func Is_Dead() -> bool:
 func Update_Stamina(amount: float) -> void:
 	stamina += amount + stamina_modifier
 	stamina = clamp(stamina, 0, max_stamina)
+	emit_signal("stamina_changed", stamina)
 
 func Can_Use_Stamina(amount: float) -> bool:
 	return stamina >= amount
 
 func Use_Stamina(amount: float) -> bool:
 	if Can_Use_Stamina(amount):
+		emit_signal("stamina_changed", stamina)
 		Update_Stamina(-amount)
 		return true
 	return false
@@ -63,6 +68,7 @@ func Recover_Stamina(amount: float) -> void:
 # Scrap / Currency Functions
 func Add_Scrap(amount: int) -> void:
 	scrap += amount
+	print(scrap)
 
 func Spend_Scrap(amount: int) -> bool:
 	if scrap >= amount:

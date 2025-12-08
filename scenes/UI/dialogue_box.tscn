@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bwf8eguwj4qm8"]
+[gd_scene load_steps=7 format=3 uid="uid://dib32ih64y6gs"]
 
-[ext_resource type="Script" uid="uid://bg27b6vn7dlxl" path="res://scenes/dialogue_box.gd" id="1_fu8b5"]
+[ext_resource type="Script" uid="uid://cq23dpivervl2" path="res://scenes/dialogue_box.gd" id="1_fu8b5"]
 [ext_resource type="FontFile" uid="uid://bmgmdriaym5s1" path="res://assets/ui/Complete_UI_Essential_Pack_Free/Complete_UI_Essential_Pack_Free/01_Flat_Theme/Sprites/Born2bSportyV2.ttf" id="1_rc1id"]
-[ext_resource type="Script" uid="uid://joldkytu42ci" path="res://scenes/text.gd" id="3_tm68y"]
+[ext_resource type="Script" uid="uid://ea2kxihqfnbe" path="res://scenes/text.gd" id="3_tm68y"]
 
 [sub_resource type="GDScript" id="GDScript_tm68y"]
 

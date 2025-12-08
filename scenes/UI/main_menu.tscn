@@ -1,10 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://dqe5o7pjcxutd"]
+[gd_scene load_steps=13 format=3 uid="uid://ckult3sx7xse5"]
 
-[ext_resource type="Script" uid="uid://dglceih5su3x7" path="res://scripts/systems/main_menu.gd" id="1_06t4h"]
-[ext_resource type="Texture2D" uid="uid://dfxxr4sabm0m1" path="res://assets/backgroundanimatedparallax - Copy (1).png" id="2_bqqt6"]
+[ext_resource type="Script" uid="uid://dglceih5su3x7" path="res://scripts/ui/main_menu.gd" id="1_06t4h"]
+[ext_resource type="Texture2D" uid="uid://cwha2uwocsxwc" path="res://assets/backgroundanimatedparallax - Copy (1).png" id="2_bqqt6"]
 [ext_resource type="FontFile" uid="uid://bmgmdriaym5s1" path="res://assets/ui/Complete_UI_Essential_Pack_Free/Complete_UI_Essential_Pack_Free/01_Flat_Theme/Sprites/Born2bSportyV2.ttf" id="4_8ln24"]
 [ext_resource type="FontFile" uid="uid://b2sgytwukhekn" path="res://assets/ui/Complete_UI_Essential_Pack_Free/Complete_UI_Essential_Pack_Free/01_Flat_Theme/Aseprite/7pxMONOkeychainn.ttf" id="4_rtw2f"]
-[ext_resource type="AudioStream" uid="uid://blgt6lhnplqmp" path="res://assets/ui/Pixel_32.wav" id="4_wu84c"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jk1qb"]
 bg_color = Color(0.09320182, 0.22091639, 0.13816993, 0.245)
@@ -149,8 +148,6 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_tbmy8")
 text = "EXIT"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("4_wu84c")
-bus = &"Sound"
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
