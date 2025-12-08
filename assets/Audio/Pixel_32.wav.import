@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://boy0amuxxlnvs"
-path="res://.godot/imported/Pixel_32.wav-79c328fc943661187b7fe47ae7cb07c5.sample"
+path="res://.godot/imported/Pixel_32.wav-71db7bc7005c00edcb208e7605f319ce.sample"
 
 [deps]
 
-source_file="res://assets/ui/Pixel_32.wav"
-dest_files=["res://.godot/imported/Pixel_32.wav-79c328fc943661187b7fe47ae7cb07c5.sample"]
+source_file="res://assets/Audio/Pixel_32.wav"
+dest_files=["res://.godot/imported/Pixel_32.wav-71db7bc7005c00edcb208e7605f319ce.sample"]
 
 [params]
 

@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://dqe5o7pjcxutd"]
+[gd_scene load_steps=15 format=3 uid="uid://dqe5o7pjcxutd"]
 
 [ext_resource type="Script" uid="uid://dglceih5su3x7" path="res://scripts/ui/main_menu.gd" id="1_06t4h"]
 [ext_resource type="Texture2D" uid="uid://cwha2uwocsxwc" path="res://assets/backgroundanimatedparallax - Copy (1).png" id="2_bqqt6"]
 [ext_resource type="FontFile" uid="uid://bmgmdriaym5s1" path="res://assets/ui/Complete_UI_Essential_Pack_Free/Complete_UI_Essential_Pack_Free/01_Flat_Theme/Sprites/Born2bSportyV2.ttf" id="4_8ln24"]
 [ext_resource type="FontFile" uid="uid://b2sgytwukhekn" path="res://assets/ui/Complete_UI_Essential_Pack_Free/Complete_UI_Essential_Pack_Free/01_Flat_Theme/Aseprite/7pxMONOkeychainn.ttf" id="4_rtw2f"]
-[ext_resource type="AudioStream" uid="uid://boy0amuxxlnvs" path="res://assets/ui/Pixel_32.wav" id="4_wu84c"]
+[ext_resource type="AudioStream" uid="uid://boy0amuxxlnvs" path="res://assets/Audio/Pixel_32.wav" id="4_wu84c"]
+[ext_resource type="Texture2D" uid="uid://bu4bxswr46je8" path="res://VertLogoTransp.png" id="6_ngj32"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jk1qb"]
 bg_color = Color(0.09320182, 0.22091639, 0.13816993, 0.245)
@@ -150,9 +151,9 @@ text = "EXIT"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_wu84c")
-bus = &"Sound"
 
 [node name="Label" type="Label" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 239.0
 offset_top = 217.0
@@ -161,3 +162,12 @@ offset_bottom = 337.0
 theme_override_fonts/font = ExtResource("4_8ln24")
 theme_override_font_sizes/font_size = 120
 text = "CRADLE OF RUST"
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 511.0
+
+[node name="TextureRect2" type="TextureRect" parent="CenterContainer"]
+layout_mode = 2
+texture = ExtResource("6_ngj32")
