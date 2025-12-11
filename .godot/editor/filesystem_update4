@@ -1,0 +1,6 @@
+res://scenes/UI/player_upgrade.tscn
+res://assets/player/male/male.tres
+res://scripts/player/Player.gd
+res://scripts/player/player_upgrade.gd
+res://scenes/dialogue_box.gd
+res://scenes/Levels/MainLevel.tscn
